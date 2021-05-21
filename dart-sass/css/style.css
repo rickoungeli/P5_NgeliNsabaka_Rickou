@@ -1,0 +1,138 @@
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+  background: whitesmoke;
+}
+
+img {
+  width: 100%;
+}
+
+/* ------- HEADER ---------- */
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.lignelogo {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding: 5px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.panier {
+  position: absolute;
+  top: 65%;
+  right: 13px;
+  transform: translateY(-50%);
+}
+
+.nombre-panier {
+  position: absolute;
+  color: red;
+  font-weight: bold;
+  font-size: 0.7em;
+  top: 37%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.logo {
+  height: 30px;
+  width: 100px;
+  margin: 0 auto;
+}
+
+/* ------- ZONE DE RECHERCHE ---------- */
+.searchform {
+  padding: 2px 5px;
+  margin: 10px 5px;
+  background-color: beige;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  height: 30px;
+}
+.searchform input {
+  width: 90%;
+  border: none;
+  background: none;
+}
+.searchform span {
+  position: relative;
+  margin-top: 4px;
+  font-size: 0.8em;
+  padding: 3px;
+}
+
+/* ------- CORPS ---------- */
+.lien {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  padding: 10px;
+  transition: background-color, 500ms;
+}
+.lien:hover {
+  background-color: gainsboro;
+}
+.lien #id {
+  visibility: none;
+}
+.lien .photo {
+  min-width: 30%;
+  max-width: 100px;
+  height: 120px;
+  margin: 0 5px;
+  padding-top: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.lien .descry {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 75%;
+}
+.lien .descry p {
+  font-size: 0.8em;
+  margin-bottom: 20px;
+}
+.lien .descry .nom {
+  color: #9356DC;
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.lien .descry .description {
+  color: rgba(0, 0, 0, 0.8);
+}
+.lien .prix {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+.lien .prix p {
+  color: red;
+  font-weight: bold;
+  font-size: 1.3em;
+}
+.lien .prix p:nth-child(2) {
+  position: relative;
+  font-size: 0.9em;
+  top: -20%;
+}
+
+/*# sourceMappingURL=style.css.map */
