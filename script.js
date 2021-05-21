@@ -4,7 +4,7 @@
 //<div class='produit'><div class='photo'><img src='"+imageUrl+"' alt='Photo de l\'animal'><p class='id'>"+id+"</p></div><div class='descry'><p class='nom'>"+nom+"</p><p class='description'>"+description+"</p><div class='prix'><p>"+price+"</p><p>€</p></div></div></div>"
 //J'envoie la reqûete et j'interprete les résultats
 fetch ("https://rickoungeli.github.io/ngelinsabakarickou_5_18052021/api/teddies")
-fetch ("http://localhost:5500/api/teddies") 
+//fetch ("http://localhost:5500/api/teddies") 
     .then (function(response) {if (response.ok) {return response.json() }})
     .then(function(value) {
         //Je cible la #conteneur puisque je vais injecter des éléments html
