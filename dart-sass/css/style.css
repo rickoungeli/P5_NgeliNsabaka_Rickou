@@ -74,7 +74,7 @@ img {
 }
 
 /* ------- CORPS ---------- */
-.lien {
+.Card {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
@@ -82,41 +82,42 @@ img {
   padding: 10px;
   transition: background-color, 500ms;
 }
-.lien:hover {
+.Card:hover {
   background-color: gainsboro;
 }
-.lien #id {
+.Card #id {
   visibility: none;
 }
-.lien .photo {
-  min-width: 30%;
-  max-width: 100px;
+.Card .photo {
+  width: 30%;
+  max-width: 150px;
+  min-width: 80px;
   height: 120px;
   margin: 0 5px;
   padding-top: 10px;
   border-radius: 50%;
   overflow: hidden;
 }
-.lien .descry {
+.Card .descry {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 75%;
 }
-.lien .descry p {
+.Card .descry p {
   font-size: 0.8em;
   margin-bottom: 20px;
 }
-.lien .descry .nom {
+.Card .descry .nom {
   color: #9356DC;
   margin: 0;
   font-weight: bold;
   text-transform: uppercase;
 }
-.lien .descry .description {
+.Card .descry .description {
   color: rgba(0, 0, 0, 0.8);
 }
-.lien .prix {
+.Card .prix {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -124,12 +125,12 @@ img {
   position: relative;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
-.lien .prix p {
+.Card .prix p {
   color: red;
   font-weight: bold;
   font-size: 1.3em;
 }
-.lien .prix p:nth-child(2) {
+.Card .prix p:nth-child(2) {
   position: relative;
   font-size: 0.9em;
   top: -20%;
