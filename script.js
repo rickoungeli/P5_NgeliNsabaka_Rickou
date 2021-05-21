@@ -48,7 +48,7 @@ fetch ("http://localhost:5500/api/teddies")
 
 
     
-    //.catch(function(err) {alert ('un problème est survenue, merci de vérifier !')+err});
+    .catch(function(err) {alert ('un problème est survenue, merci de vérifier !')+err});
 
     
 
