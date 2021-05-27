@@ -5,7 +5,9 @@
 
 
 //Je récupère l'ID contenu dans l'URL
-let id = (document.location.search).substring(4)
+let id = (document.location.search).substring(4,28)
+let page = (document.location.search).substring(34)
+alert(page)
 let searchTerm = ''
 
 
@@ -19,7 +21,7 @@ fetch (`http://localhost:5500/api/teddies?_id=${id}`)
 
 
     
-    let conteneur = document.getElementById('conteneurProduits')
+    let conteneur = document.getElementById('conteneur')
     for (let i=0; i<response2.length; i++) {
         if(response2[i]._id===id){
         //Je récupère les couleurs dans une variable

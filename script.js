@@ -17,14 +17,14 @@ const reqFetch = async() => {
 const afficherData = async() => {
     await reqFetch()
     
-    conteneurProduits.innerHTML = (
+    conteneur.innerHTML = (
 
         datas
         .filter(data => data.name.toLowerCase().includes(searchTerm.toLowerCase()
             ))
             .map(data => ( //Traitement de chaque élément (data) de l'objet datas
             `
-                <a class='row Card p-2' href='ficheproduit.html?id=${data._id}'>
+                <a class='row Card p-2' href='ficheproduit.html?id=${data._id}&page=2'>
                     <div class='col col-xs-12 col-sm-4 photo'>
                         <img src="${data.imageUrl}">
                     </div>
