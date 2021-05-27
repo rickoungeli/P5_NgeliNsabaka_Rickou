@@ -7,21 +7,17 @@
 //Je récupère l'ID contenu dans l'URL
 let id = (document.location.search).substring(4,28)
 let page = (document.location.search).substring(34)
-alert(page)
+let conteneur = document.getElementById('conteneur')
 let searchTerm = ''
 
 
 //J'envoie la reqûete et j'interprete les résultats
+//fetch ("https://geo.api.gouv.fr/communes?codePostal=94190")
 //fetch (`http://localhost:5500/api/teddies?_id=5be9c8541c9d440000665243`) 
 fetch (`http://localhost:5500/api/teddies?_id=${id}`) 
-//fetch ("https://geo.api.gouv.fr/communes?codePostal=94190")
 .then (response => response.json()
 .then(response2 => {
-    console.table(response2)
-
-
     
-    let conteneur = document.getElementById('conteneur')
     for (let i=0; i<response2.length; i++) {
         if(response2[i]._id===id){
         //Je récupère les couleurs dans une variable
