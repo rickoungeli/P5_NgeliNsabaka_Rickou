@@ -59,11 +59,12 @@ img {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  outline-style: none;
   height: 30px;
 }
 .searchform input {
   width: 90%;
-  border: none;
+  outline-style: none;
   background: none;
 }
 .searchform span {
@@ -74,12 +75,13 @@ img {
 }
 
 /* ------- CORPS ---------- */
+.conteneurProduits {
+  min-width: 100vh;
+}
+
 .Card {
-  display: flex;
-  flex-direction: row;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   text-decoration: none;
-  padding: 10px;
   transition: background-color, 500ms;
 }
 .Card:hover {
@@ -89,20 +91,16 @@ img {
   visibility: none;
 }
 .Card .photo {
-  width: 30%;
-  max-width: 150px;
+  max-width: 200px;
   min-width: 80px;
   height: 120px;
   margin: 0 5px;
   padding-top: 10px;
-  border-radius: 50%;
-  overflow: hidden;
 }
 .Card .descry {
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 75%;
 }
 .Card .descry p {
   font-size: 0.8em;
