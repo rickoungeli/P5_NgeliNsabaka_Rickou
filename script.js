@@ -5,15 +5,8 @@ let page = (document.location.search).substring(7,6)
 let id = ''
 let searchTerm = ''
 let nombreDeProduits=0
-
-class produits {
-    constructor(id, name, description){
-        this.id = id
-        this.name = name
-        this.description = description
-    }
-}
-
+let produit = []
+let produits = []
 //Pour toutes les pages
 AfficherNombreProduits()
 
@@ -58,18 +51,18 @@ if (page==''){
 if (page==2){
     id = (document.location.search).substring(11,39)
     let btnAjoutPanier = document.getElementById('ajoutPanier')
-
+    
     //J'envoie la reqûete et j'interprete les résultats
     fetch (`http://localhost:5500/api/teddies/${id}`) 
     .then (response => response.json()
     .then(teddy => {
-        //Je récupère les couleurs dans une variable
-        let couleurs =teddy .colors;   
-        afficheTeddy(teddy)  
-        
+        //Je récupère les couleurs dans une variable 
+        afficheTeddy(teddy)
+        //produit = JSON.stringify(teddy)   
+        //alert(produit)
+        ajoutPanier()
     }))
-    .catch(error => alert ("Erreur : " + error))
-    ajoutPanier()
+    .catch(error => alert ("Erreur : " + error))   
 }
 
 if (page=='3'){
@@ -85,7 +78,6 @@ searchZone.addEventListener('input', (e) => {
     searchTerm = e.target.value //Je récupèrevtout ce qui est tapé dans l'input
     afficherData()
 })
-
 
 //Fonction pour afficher la fiche d'un produit
 function afficheTeddy(teddy) {
@@ -105,10 +97,19 @@ function afficheTeddy(teddy) {
         </div>
 
     `
+    produit.push (id)
+    produit.push (teddy.name)
+    produit.push (teddy.price)
+    produit.push (teddy.imageUrl)
+    produit.push (teddy.color)
+    produit.push (teddy.description)
+    
+    /*
     this.id = id
     this.name = teddy.name
     this.imageUrl = ''
     this.description = teddy.description
+    */
 }
 
 //Fonction pour séparer les milliers dans le champs prix
@@ -118,28 +119,29 @@ function separerLesMilliers(x) {
 
 //Fonction pour afficher le nombre de produits contenus dans le panier
 function AfficherNombreProduits() {
-    nombreDeProduits = localStorage.length
+    produits = localStorage.getItem('produits')
+    console.log (produits)
+    if(produits==null){nombreDeProduits = 0}
+    if(produits!==null){nombreDeProduits = produits.length}
     document.querySelector(".nombre-panier").innerHTML = nombreDeProduits
 }
 
 //Fonction pour ajouter des produits au panier
 function ajoutPanier() {
-    
     btnAjoutPanier.addEventListener('click', (e) => {
-        if(localStorage.getItem('produit')){
-            let produit = localStorage.getItem('produit')
-            
-            let produit1 = new produits(this.id, this.name, this.description)
-            produit.push(produit1)
-            alert(produit)
-            localStorage.setItem("produit",JSON.stringify(produit))
-            
-            AfficherNombreProduits()
+        console.log(produit)   
+        if(localStorage.getItem('produits')){
+            produits = localStorage.getItem('produits')
+            produits.splice(0, 0, [produit[0], produit[1], produit[2], produit[3], produit[4], produit[5]])
+            localStorage.setItem('produits',JSON.stringify(produits))
         }
         else {
-            let produit = new produits(this.id, this.name, this.description)
-            localStorage.setItem("produit",JSON.stringify(produit))
+            console.log (produit)
+            produits.push (produit)
+            localStorage.setItem('produits',JSON.stringify(produits))            
         }
+        AfficherNombreProduits()
     })
+    
     
 }
