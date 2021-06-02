@@ -15,7 +15,7 @@
         
     </head>
     <body>
-        <header class="header container container-fluid">
+        <header class="container">
           <!-- Ligne d'entête -->
           <div class="lignelogo">
             <span class="bouton-menu"><i class="fas fa-bars"></i></span>
@@ -25,18 +25,16 @@
               <span class="nombre-panier"></span>
             </a>
           </div>
-          <!-- Zone de recherche -->
-          <form class="searchform  ">
-            <span class="fas fa-search "></span>
-            <input type="text" id="searchzone" placeholder="Que recherchez-vous?"></input>
-          </form>
         </header>
 
       <!-- Corps -->
-      <main class="container container-fluid">
+      <main class="container">
         <!--Affichage des produits -->
-        <div id="conteneur"></div>
+        <div id="conteneur">
+          <h2>Produits sélectionnés</h2>
+        </div>
         <div id="total"></div>
+        <div class="infos-client" id="infos-client"></div>
       </main>
       <footer></footer>
       <script type="text/javascript" src="script.js" async></script> 

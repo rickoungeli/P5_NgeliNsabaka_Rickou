@@ -6,7 +6,7 @@ let id = ''
 let searchTerm = ''
 let nbrePanier = 0
 let produit = []
-let produits = [[]]
+let produits = {}
 
 //Pour toutes les pages
 AfficherNombreProduits()
@@ -15,6 +15,11 @@ AfficherNombreProduits()
 //J'envoie la reqûete (fetch) stockée dans la variable "reqFetch" et j'attend les résultats "response"
 //Je reçois une reponse en forme de promesse, je la convetie en objet JSON appelé 'datas'
 if (page==''){
+    //Fonction pour rechercher des produits 
+    searchZone.addEventListener('input', (e) => {
+    searchTerm = e.target.value //Je récupère tout ce qui est tapé dans l'input
+    afficherData()
+})
     let datas
     const reqFetch = async() => {
         datas = await fetch ("http://localhost:5500/api/teddies") 
@@ -32,11 +37,11 @@ if (page==''){
                 .map(data => ( //Traitement de chaque élément (data) de l'objet datas
                 `
                     <a class='row card p-2' href='ficheproduit.html?page=2&id=${data._id}'>
-                        <p class='nom'>${data.name}</p>
-                        <div class='col photo'>
+                        <div class='col-sm-4 photo'>
                             <img src="${data.imageUrl}">
                         </div>
-                        <div class='col descry'>
+                        <div class='col-sm-8 descry'>
+                            <p class='nom'>${data.name}</p>
                             <p class='description'>${data.description}</p>
                             <div class='prix'><p>${separerLesMilliers(data.price)} €</p></div>
                         </div>
@@ -63,19 +68,17 @@ if (page==2){
 }
 
 if (page=='3'){
-    produits = JSON.parse(localStorage.getItem('produits'))
-    produits = produits.sort()
-    let quantite = 0
-    let prixTotal = 0
-    let id1 = ""
-    prixTotal = AffichePanier(quantite, prixTotal)
+    if (localStorage.getItem('nbrePanier')) {
+        affichePanier()
+        afficheFormulaireClient()
+    }
+    else {
+        conteneur.innerHTML = `
+                VOTRE PANIER EST VIDE
+            `
+        
+    }
 }
-
-//Fonction pour rechercher des produits 
-searchZone.addEventListener('input', (e) => {
-    searchTerm = e.target.value //Je récupère tout ce qui est tapé dans l'input
-    afficherData()
-})
 
 //Fonction pour afficher la fiche d'un produit depuis la liste des produits (page 1)
 function afficheTeddy(teddy) {
@@ -101,49 +104,85 @@ function afficheTeddy(teddy) {
 function ajoutPanier(teddy) {
     let btnAjoutPanier = document.getElementById('btnAjoutPanier')
     btnAjoutPanier.addEventListener('click', (e) => {
-        if (localStorage.getItem('produits')) {
-            produits = JSON.parse(localStorage.getItem('produits'))
-            produit = [teddy._id, teddy.name, teddy.price, teddy.imageUrl, teddy.description, teddy.colours]
-            produits.splice(0, 0, produit)
-            console.log(produits)
-            localStorage.setItem('produits', JSON.stringify(produits))
+        if (localStorage.getItem(teddy._id)) {
+            produits = JSON.parse(localStorage.getItem(teddy._id))
+            produits.quantite += 1
+            nbrePanier = localStorage.getItem('nbrePanier')
         }
         else {
-            produits = [[teddy._id, teddy.name, teddy.price, teddy.imageUrl, teddy.description, teddy.colours]]
-            localStorage.setItem('produits', JSON.stringify(produits))
+            produits = {teddy, quantite:1}
         }
+        nbrePanier++
+        localStorage.setItem('nbrePanier', nbrePanier)
+        localStorage.setItem(teddy._id, JSON.stringify(produits))
         AfficherNombreProduits()
     })
 }
 
 //Fonction pour afficher le panier et le prix total
-function AffichePanier(quantite, prixTotal) {
-    for (produit of produits) {
-        let card = document.createElement("div")
-        card.classList.add('row')
-        card.classList.add('card')
-        card.classList.add('card1')
-        card.classList.add('p-2')
-        conteneur.appendChild(card)
-        card.innerHTML = `
-            <p class='nom'>${produit[1]}</p>
-            <div class='col photo'>
-                <img src=${produit[3]}>
-            </div>
-            <div class='col descry'>
-                
-                <p class='description'>${produit[4]}</p>
-            </div>
-            <div class='col prix'>
-                <p>${separerLesMilliers(produit[2])} €</p>
-                <p>Quantité : <button class='btn btn-success btn-decrement' id='decrement'>-</button>${quantite}<button class='btn btn-success btn-decrement' id='increment'>+</button></p>
-            </div>
-        `
-        prixTotal += produit[2]
+function affichePanier() {
+    let size = localStorage.length
+    let prixTotal = 0
+    for (let i = 0; i < size; i++) {
+        produits = JSON.parse(localStorage.getItem(localStorage.key(i)))
+        if (produits.teddy) {
+            let prix = produits.teddy.price * produits.quantite
+            let card = document.createElement("div")
+            card.classList.add('row')
+            card.classList.add('card')
+            card.classList.add('card1')
+            card.classList.add('p-2')
+            conteneur.appendChild(card)
+            card.innerHTML = `
+                <div class='col-sm-4 photo'>
+                    <img src=${produits.teddy.imageUrl}>
+                </div>
+                <div class='col-sm-8 descry'>
+                    <p class='nom'>${produits.teddy.name}</p>
+                    <p class='description'>${produits.teddy.description}</p>
+                    <div class='prix'>
+                        <p>${separerLesMilliers(prix)} €</p>
+                        <p>Quantité : <button class='btn btn-success btn-decrement' id='decrement'>-</button>${produits.quantite}<button class='btn btn-success btn-decrement' id='increment'>+</button></p>
+                    </div>
+                </div>
+            `
+            prixTotal += prix
+        }
+        let total = document.getElementById('total')
+        total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
     }
-    let total = document.getElementById('total')
-    total.innerHTML = "Total : " + prixTotal + "€"
-    return prixTotal
+}
+
+//Fonction pour afficher le formulaire client
+function afficheFormulaireClient() {
+    document.getElementById('infos-client').innerHTML = `
+        <div  id="infos-client">
+          <form id="form-client" class="form">
+              <h2>Informations sur le client</h2>
+              <div class="form-group">
+                <label for="firstname" class="form-control">Prénom :</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Votre prénom">
+              </div>
+              <div class="form-group">
+                <label for="name" class="form-control">Nom :</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom">
+              </div>
+              <div class="form-group">
+                <label for="adress" class="form-control">Adresse :</label>
+                <input type="text" class="form-control" id="adresse" name="adress" placeholder="Votre adresse">
+              </div>
+              <div class="form-group">
+                <label for="city" class="form-control">Ville :</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="Votre ville">
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-control">Email :</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail">
+              </div>
+          </form>
+        </div>
+        <button class="btn btn-success" id="btn-commander">VALIDER LA COMMANDE</button>
+        `
 }
 
 //Fonction pour séparer les milliers dans le champs prix
@@ -153,13 +192,13 @@ function separerLesMilliers(x) {
 
 //Fonction pour afficher le nombre de produits contenus dans le panier
 function AfficherNombreProduits() {
-    if(localStorage.getItem('produits')){
-        nbrePanier = JSON.parse(localStorage.getItem('produits')).length
+    if (localStorage.getItem('nbrePanier')) {
+        nbrePanier = localStorage.getItem('nbrePanier')
         document.querySelector(".nombre-panier").innerHTML = nbrePanier
     }
-   else {
+    else {
         document.querySelector(".nombre-panier").innerHTML = nbrePanier
-   }
+    }
 }
 
 

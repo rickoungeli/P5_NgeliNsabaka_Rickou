@@ -17,6 +17,7 @@
   .header {
       display: flex;
       flex-direction: column;
+      padding: 10px 0;
     }
     .lignelogo {
         display: flex;
@@ -48,18 +49,9 @@
 
   /* ------- ZONE DE RECHERCHE ---------- */
   .searchform {
-    padding: 2px 5px;
-    margin: 10px 5px;
-    background-color: beige;
-    border: 1px solid rgba(0,0,0,0.4);
-    border-radius: 5px;
-    box-shadow: 0 0 2px rgba(0,0,0,0.4);
-    outline-style:none;
-    height: 30px;
+    
     input {
-        width: 90%;
-        outline-style:none;
-        background: none;
+        
     }
     span {
         position: relative;
@@ -133,6 +125,9 @@
         }
     }
 }
+.card1 {
+    flex-direction: row;
+}
 .card1:hover {
     background-color: #fff;
 }
@@ -147,4 +142,11 @@
     border: none;
     padding: 5px;
     margin: 0 5px;
+}
+#total {
+    padding : 10px;
+    text-align: center;
+    background-color: green;
+    color : white;
+    margin: 10px 0;
 }

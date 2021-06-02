@@ -19,6 +19,7 @@ img {
 .header {
   display: flex;
   flex-direction: column;
+  padding: 10px 0;
 }
 
 .lignelogo {
@@ -53,21 +54,6 @@ img {
 }
 
 /* ------- ZONE DE RECHERCHE ---------- */
-.searchform {
-  padding: 2px 5px;
-  margin: 10px 5px;
-  background-color: beige;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-  outline-style: none;
-  height: 30px;
-}
-.searchform input {
-  width: 90%;
-  outline-style: none;
-  background: none;
-}
 .searchform span {
   position: relative;
   margin-top: 4px;
@@ -136,6 +122,10 @@ img {
   top: -20%;
 }
 
+.card1 {
+  flex-direction: row;
+}
+
 .card1:hover {
   background-color: #fff;
 }
@@ -152,6 +142,14 @@ img {
   border: none;
   padding: 5px;
   margin: 0 5px;
+}
+
+#total {
+  padding: 10px;
+  text-align: center;
+  background-color: green;
+  color: white;
+  margin: 10px 0;
 }
 
 /*# sourceMappingURL=style.css.map */
