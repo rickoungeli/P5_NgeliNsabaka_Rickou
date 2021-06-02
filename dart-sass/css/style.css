@@ -8,6 +8,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.8);
   background: whitesmoke;
+  font-size: 0.8em;
 }
 
 img {
@@ -79,59 +80,78 @@ img {
   min-width: 100vh;
 }
 
-.Card {
+.card {
+  background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   text-decoration: none;
   transition: background-color, 500ms;
 }
-.Card:hover {
+.card:hover {
   background-color: gainsboro;
 }
-.Card #id {
+.card #id {
   visibility: none;
 }
-.Card .photo {
+.card .photo {
   max-width: 200px;
-  min-width: 80px;
+  min-width: 60px;
+  width: 100%;
   height: 120px;
   margin: 0 5px;
   padding-top: 10px;
 }
-.Card .descry {
+.card .descry {
   display: flex;
   flex-direction: column;
   position: relative;
 }
-.Card .descry p {
-  font-size: 0.8em;
+.card .descry p {
   margin-bottom: 20px;
 }
-.Card .descry .nom {
+.card .descry .description {
+  color: rgba(0, 0, 0, 0.8);
+}
+.card .nom {
   color: #9356DC;
   margin: 0;
   font-weight: bold;
   text-transform: uppercase;
 }
-.Card .descry .description {
-  color: rgba(0, 0, 0, 0.8);
-}
-.Card .prix {
+.card .prix {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   position: relative;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
-.Card .prix p {
+.card .prix p {
   color: red;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1em;
 }
-.Card .prix p:nth-child(2) {
+.card .prix p:nth-child(2) {
   position: relative;
   font-size: 0.9em;
   top: -20%;
+}
+
+.card1:hover {
+  background-color: #fff;
+}
+
+#btnAjoutPanier {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.btn-decrement {
+  line-height: 0.5;
+  border: none;
+  padding: 5px;
+  margin: 0 5px;
 }
 
 /*# sourceMappingURL=style.css.map */
