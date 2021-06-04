@@ -78,6 +78,21 @@ if (page=='3'){
             `
         
     }
+
+    //Envoi du formulaire et affichage page résumé
+    const btnValider = document.querySelector('#btn-commander')
+    btnValider.addEventListener ('click', (e) => {
+        let formulaireClient = {}
+        formulaireClient = {
+            firstname : document.querySelector('#prenom').value,
+            name : document.querySelector('#nom').value,
+            adress : document.querySelector('#adresse').value,
+            city : document.querySelector('#ville').value,
+            email : document.querySelector('#email').value
+        }
+        localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
+        window.location = 'synthesecommande.html?page=4'
+    })
 }
 
 //Fonction pour afficher la fiche d'un produit depuis la liste des produits (page 1)
@@ -154,35 +169,44 @@ function affichePanier() {
 }
 
 //Fonction pour afficher le formulaire client
-function afficheFormulaireClient() {
+function afficheFormulaireClient() {    
     document.getElementById('infos-client').innerHTML = `
         <div  id="infos-client">
           <form id="form-client" class="form">
               <h2>Informations sur le client</h2>
               <div class="form-group">
-                <label for="firstname" class="form-control">Prénom :</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Votre prénom">
+                <label for="prenom" >Prénom :</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" >
               </div>
               <div class="form-group">
-                <label for="name" class="form-control">Nom :</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom">
+                <label for="nom" >Nom :</label>
+                <input type="text" class="form-control" id="nom" name="nom">
               </div>
               <div class="form-group">
-                <label for="adress" class="form-control">Adresse :</label>
-                <input type="text" class="form-control" id="adresse" name="adress" placeholder="Votre adresse">
+                <label for="adresse" >Adresse :</label>
+                <input type="text" class="form-control" id="adresse" name="adresse">
               </div>
               <div class="form-group">
-                <label for="city" class="form-control">Ville :</label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="Votre ville">
+                <label for="ville" >Ville :</label>
+                <input type="text" class="form-control" id="ville" name="ville">
               </div>
               <div class="form-group">
-                <label for="email" class="form-control">Email :</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail">
+                <label for="email">Email :</label>
+                <input type="email" class=" form-control" id="email" name="email">
               </div>
           </form>
         </div>
-        <button class="btn btn-success" id="btn-commander">VALIDER LA COMMANDE</button>
+        <button class="btn btn-success" id="btn-commander">COMMANDER</button>
         `
+        if (localStorage.getItem('infosClient')) {
+            let dataClient = JSON.parse(localStorage.getItem('infosClient'))
+            document.querySelector('#prenom').setAttribute('value', dataClient.firstname)
+            document.querySelector('#nom').setAttribute('value', dataClient.name)
+            document.querySelector('#adresse').setAttribute('value', dataClient.adress)
+            document.querySelector('#ville').setAttribute('value', dataClient.city)
+            document.querySelector('#email').setAttribute('value', dataClient.email)
+    
+        } 
 }
 
 //Fonction pour séparer les milliers dans le champs prix
