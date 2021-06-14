@@ -97,6 +97,9 @@ img {
 .card .descry .description {
   color: rgba(0, 0, 0, 0.8);
 }
+.card .descry #cle, .card .descry #prix-unitaire {
+  display: none;
+}
 .card .nom {
   color: #9356DC;
   margin: 0;

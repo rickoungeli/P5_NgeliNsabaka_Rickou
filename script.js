@@ -5,8 +5,9 @@ let page = (document.location.search).substring(7,6)
 let id = ''
 let searchTerm = ''
 let nbrePanier = 0
-let produit = []
-let produits = {}
+let prixTotal = 0
+let produits = []
+let produit = {}
 
 //Pour toutes les pages
 AfficherNombreProduits()
@@ -78,22 +79,15 @@ if (page=='3'){
             `
         
     }
-
-    //Envoi du formulaire et affichage page résumé
-    const btnValider = document.querySelector('#btn-commander')
-    btnValider.addEventListener ('click', (e) => {
-        let formulaireClient = {}
-        formulaireClient = {
-            firstname : document.querySelector('#prenom').value,
-            name : document.querySelector('#nom').value,
-            adress : document.querySelector('#adresse').value,
-            city : document.querySelector('#ville').value,
-            email : document.querySelector('#email').value
-        }
-        localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
-        window.location = 'synthesecommande.html?page=4'
-    })
+    
+    enregistrerFormulaire()
 }
+
+if (page==4){
+    
+     
+}
+
 
 //Fonction pour afficher la fiche d'un produit depuis la liste des produits (page 1)
 function afficheTeddy(teddy) {
@@ -119,53 +113,67 @@ function afficheTeddy(teddy) {
 function ajoutPanier(teddy) {
     let btnAjoutPanier = document.getElementById('btnAjoutPanier')
     btnAjoutPanier.addEventListener('click', (e) => {
-        if (localStorage.getItem(teddy._id)) {
-            produits = JSON.parse(localStorage.getItem(teddy._id))
-            produits.quantite += 1
+        if (localStorage.getItem('panier')) {
+            produits = JSON.parse(localStorage.getItem('panier'))
             nbrePanier = localStorage.getItem('nbrePanier')
+            let isFound = false
+            for (i=0; i<produits.length; i++) {
+                if (produits[i]._id === teddy._id) {
+                    produits[i].quantite += 1
+                    isFound = true
+                    break
+                }
+            } 
+            if (!isFound){
+                teddy.quantite=1
+                produits.push(teddy)
+            }
+            
         }
         else {
-            produits = {teddy, quantite:1}
+            teddy.quantite=1
+            produits.push(teddy)
         }
         nbrePanier++
         localStorage.setItem('nbrePanier', nbrePanier)
-        localStorage.setItem(teddy._id, JSON.stringify(produits))
+        localStorage.setItem('panier', JSON.stringify(produits))
         AfficherNombreProduits()
+        window.location = 'index.html'
+        
     })
 }
 
 //Fonction pour afficher le panier et le prix total
 function affichePanier() {
-    let size = localStorage.length
-    let prixTotal = 0
-    for (let i = 0; i < size; i++) {
-        produits = JSON.parse(localStorage.getItem(localStorage.key(i)))
-        if (produits.teddy) {
-            let prix = produits.teddy.price * produits.quantite
-            let card = document.createElement("div")
-            card.classList.add('row')
-            card.classList.add('card')
-            card.classList.add('card1')
-            card.classList.add('p-2')
-            conteneur.appendChild(card)
-            card.innerHTML = `
-                <div class='col-sm-4 photo'>
-                    <img src=${produits.teddy.imageUrl}>
+    produits = JSON.parse(localStorage.getItem('panier'))
+    for (i=0; i<produits.length; i++) {
+        let prix = produits[i].price * produits[i].quantite
+        prixTotal += prix
+        let card = document.createElement("div")
+        card.classList.add('row')
+        card.classList.add('card')
+        card.classList.add('card1')
+        card.classList.add('p-2')
+        conteneur.appendChild(card)
+        card.innerHTML = `
+            <div class='col-sm-4 photo'>
+                <img src=${produits[i].imageUrl}>
+            </div>
+            <div class='col-sm-8 descry'>
+                <p class='nom'>${produits[i].name}</p>
+                <p class='description'>${produits[i].description}</p>
+                <p id="cle">${produits[i]._id}</p>
+                <p id="prix-unitaire">${produits[i].price}</p>
+                <div class='prix'>
+                    <p id="prix-total">${separerLesMilliers(prix)} €</p>
+                    <p id="quantite">Quantité : <button class='btn btn-success btn-decrement' id='decrement'>-</button>${produits[i].quantite}<button class='btn btn-success btn-decrement' id='increment'>+</button></p>
                 </div>
-                <div class='col-sm-8 descry'>
-                    <p class='nom'>${produits.teddy.name}</p>
-                    <p class='description'>${produits.teddy.description}</p>
-                    <div class='prix'>
-                        <p>${separerLesMilliers(prix)} €</p>
-                        <p>Quantité : <button class='btn btn-success btn-decrement' id='decrement'>-</button>${produits.quantite}<button class='btn btn-success btn-decrement' id='increment'>+</button></p>
-                    </div>
-                </div>
-            `
-            prixTotal += prix
-        }
-        let total = document.getElementById('total')
-        total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+            </div>
+        `
+
     }
+    let total = document.getElementById('total')
+    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
 }
 
 //Fonction pour afficher le formulaire client
@@ -209,6 +217,23 @@ function afficheFormulaireClient() {
         } 
 }
 
+//Fonction poue enregistrer le formulaire client et afficher la page résumé
+function enregistrerFormulaire() {
+    const btnValider = document.querySelector('#btn-commander')
+    btnValider.addEventListener('click', (e) => {
+        let formulaireClient = {}
+        formulaireClient = {
+            firstname: document.querySelector('#prenom').value,
+            name: document.querySelector('#nom').value,
+            adress: document.querySelector('#adresse').value,
+            city: document.querySelector('#ville').value,
+            email: document.querySelector('#email').value
+        }
+        localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
+        window.location = 'synthesecommande.html?page=4'
+    })
+}
+
 //Fonction pour séparer les milliers dans le champs prix
 function separerLesMilliers(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')
@@ -225,4 +250,41 @@ function AfficherNombreProduits() {
     }
 }
 
-
+//pour dimininuer la quantité d'un produit
+document.getElementById('decrement').addEventListener('click', (e) => {
+    produits = JSON.parse(localStorage.getItem('panier'))
+    nbrePanier = localStorage.getItem('nbrePanier')
+    for (i=0; i<produits.length; i++) {
+        if (document.getElementById('cle').innerHTML === produits[i]._id) {
+            produits[i].quantite -= 1
+            nbrePanier--
+            localStorage.setItem('nbrePanier', nbrePanier)
+            localStorage.setItem('panier', JSON.stringify(produits))
+            let total = document.getElementById('total')
+            total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+            window.location = 'pagepanier.html?page=3'
+            break
+        }
+    } 
+    
+})
+//pour augmenter la quantité la quantité d'un produit
+document.getElementById('increment').addEventListener('click', increment);
+function increment(){
+    produits = JSON.parse(localStorage.getItem('panier'))
+    nbrePanier = localStorage.getItem('nbrePanier')
+    for (i=0; i<produits.length; i++) {
+        if (document.getElementById('cle').innerHTML === produits[i]._id) {
+            produits[i].quantite += 1
+            nbrePanier++
+            prixTotal -= document.getElementById('prix-unitaire').innerHTML
+            localStorage.setItem('nbrePanier', nbrePanier)
+            localStorage.setItem('panier', JSON.stringify(produits))
+            let total = document.getElementById('total')
+            total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+            window.location = 'pagepanier.html?page=3'
+            break
+        }
+    } 
+    
+}

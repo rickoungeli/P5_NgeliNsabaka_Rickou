@@ -98,6 +98,9 @@
         .description {
             color : rgba(0,0,0, 0.8);
         }
+        #cle, #prix-unitaire {
+            display: none;
+        }
     }
     .nom {
         color : $couleur1 ;
@@ -123,6 +126,7 @@
             font-size: .9em;
             top: -20%;
         }
+        
     }
 }
 .card1 {
