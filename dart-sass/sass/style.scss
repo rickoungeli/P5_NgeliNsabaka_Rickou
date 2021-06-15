@@ -78,56 +78,52 @@
     #id {
         visibility: none;
     }
-    .photo {
-        max-width: 200px;
-        min-width: 60px;
-        width: 100%;
-        height: 120px;
-        margin: 0 5px;
-        padding-top: 10px;
-        
+}
+.photo {
+    max-width: 100px;
+    margin: 0 5px;
+    padding-top: 10px;
+}
+.descry {
+    display: flex;
+    flex-direction: column;
+    p {
+        margin-bottom: 20px;
     }
-    .descry {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        p {
-            margin-bottom: 20px;
-        }
+}
+.description {
+    color : rgba(0,0,0, 0.8);
+}
+#cle, #prix-unitaire {
+    display: none;
+}
+
+.nom {
+    color : $couleur1 ;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+}
+.prix {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    text-shadow: 0 0 2px rgba(0,0,0,0.4);
+    color: red;
+    p {
         
-        .description {
-            color : rgba(0,0,0, 0.8);
-        }
-        #cle, #prix-unitaire {
-            display: none;
-        }
-    }
-    .nom {
-        color : $couleur1 ;
-        margin: 0;
         font-weight: bold;
-        text-transform: uppercase;
-        
+        font-size: 1em;
     }
-    .prix {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
+    p:nth-child(2) {
         position: relative;
-        text-shadow: 0 0 2px rgba(0,0,0,0.4);
-        p {
-            color: red;
-            font-weight: bold;
-            font-size: 1em;
-        }
-        p:nth-child(2) {
-            position: relative;
-            font-size: .9em;
-            top: -20%;
-        }
-        
+        font-size: .9em;
+        top: -20%;
     }
+    
 }
 .card1 {
     flex-direction: row;
@@ -157,4 +153,8 @@
 .form-group {
     margin-bottom: 10px;
     
+}
+.row {
+    flex-direction: row;
+    flex-wrap: nowrap;
 }

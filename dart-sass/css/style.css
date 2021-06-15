@@ -78,48 +78,50 @@ img {
 .card #id {
   visibility: none;
 }
-.card .photo {
-  max-width: 200px;
-  min-width: 60px;
-  width: 100%;
-  height: 120px;
+
+.photo {
+  max-width: 100px;
   margin: 0 5px;
   padding-top: 10px;
 }
-.card .descry {
+
+.descry {
   display: flex;
   flex-direction: column;
-  position: relative;
 }
-.card .descry p {
+.descry p {
   margin-bottom: 20px;
 }
-.card .descry .description {
+
+.description {
   color: rgba(0, 0, 0, 0.8);
 }
-.card .descry #cle, .card .descry #prix-unitaire {
+
+#cle, #prix-unitaire {
   display: none;
 }
-.card .nom {
+
+.nom {
   color: #9356DC;
   margin: 0;
   font-weight: bold;
   text-transform: uppercase;
 }
-.card .prix {
+
+.prix {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   position: relative;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-}
-.card .prix p {
   color: red;
+}
+.prix p {
   font-weight: bold;
   font-size: 1em;
 }
-.card .prix p:nth-child(2) {
+.prix p:nth-child(2) {
   position: relative;
   font-size: 0.9em;
   top: -20%;
@@ -157,6 +159,11 @@ img {
 
 .form-group {
   margin-bottom: 10px;
+}
+
+.row {
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 /*# sourceMappingURL=style.css.map */

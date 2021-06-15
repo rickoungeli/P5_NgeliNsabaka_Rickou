@@ -37,16 +37,15 @@ if (page==''){
                 ))
                 .map(data => ( //Traitement de chaque élément (data) de l'objet datas
                 `
-                    <a class='row card p-2' href='ficheproduit.html?page=2&id=${data._id}'>
-                        <div class='col-sm-4 photo'>
+                    <a class='row card' href='ficheproduit.html?page=2&id=${data._id}'>
+                        <div class='photo'>
                             <img src="${data.imageUrl}">
                         </div>
-                        <div class='col-sm-8 descry'>
+                        <div class='descry'>
                             <p class='nom'>${data.name}</p>
                             <p class='description'>${data.description}</p>
                             <div class='prix'><p>${separerLesMilliers(data.price)} €</p></div>
                         </div>
-                        
                     </a>
                 `
                 )).join('')
@@ -84,8 +83,31 @@ if (page=='3'){
 }
 
 if (page==4){
-    
-     
+    produits = JSON.parse(localStorage.getItem('panier'))
+    for (i=0; i<produits.length; i++) {
+        let prix = produits[i].price * produits[i].quantite
+        prixTotal += prix
+        let card = document.createElement("div")
+        card.classList.add('row')
+        card.classList.add('p-2')
+        conteneur.appendChild(card)
+        card.innerHTML = `
+        
+            <div class='col-sx-4 photo'>
+                <img src=${produits[i].imageUrl}>
+            </div>
+            <div class='col-sx-4'>
+                <p class='nom'>Nom : ${produits[i].name}</p>
+                <p id="quantite">Quantité : ${produits[i].quantite}</p>
+                <p id="prix-total">Prix-Total : ${separerLesMilliers(prix)} €</p>
+            </div>
+        
+        `
+    }
+    /*
+    let total = document.getElementById('total')
+    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+    */
 }
 
 
@@ -152,7 +174,6 @@ function affichePanier() {
         let card = document.createElement("div")
         card.classList.add('row')
         card.classList.add('card')
-        card.classList.add('card1')
         card.classList.add('p-2')
         conteneur.appendChild(card)
         card.innerHTML = `
