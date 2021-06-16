@@ -4,54 +4,88 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+  html {background-color:$couleur4;}
   body {
     font-family: Arial, Helvetica, sans-serif;
     color: rgba(0,0,0,0.8);
-    background: $couleur4;
-    font-size: 0.8em;
-  }
-  img {width: 100%;}
-
-  /* ------- HEADER ---------- */
-  .header {
-      display: flex;
-      flex-direction: column;
-      padding: 10px 0;
-    }
-    .lignelogo {
-        display: flex;
-        flex-direction: row;
-        position: relative;
-        padding: 5px 10px;
-        border-bottom: 1px solid rgba(0,0,0,0.4);
-    }
-    .panier {
-        position: absolute;
-        top:65%;
-        right:13px;
-        transform: translateY(-50%); 
-    }
-    .nombre-panier {
-        position: absolute;
-        color: red;
-        font-weight: bold;
-        font-size: 0.7em;
-        top:37%;
-        right: 15px;
-        transform: translateY(-50%); 
-    }
-  .logo {
-    height: 30px;
-    width: 100px;
+    background: #fff;
     margin: 0 auto;
+    font-size: 0.8em;
+    width: 100%;
+    
+    @media only screen and (min-width: 700px) {
+        width: 70%;
+    }
   }
+  img {width: 90%;}
+  h1 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  h2 {
+      font-size: 1em;
+      font-weight: bold;
+      margin-top: 15px;
+  }
+  p {
+    margin-bottom: 5px ;
+    
+}
+  /* ------- HEADER ---------- */
+header {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+    
+}
+.lignelogo {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    //box-shadow: 0 0 2px rgba(0,0,0,0.4);
+}
+.panier {
+    position: absolute;
+    top:65%;
+    right:13px;
+    transform: translateY(-50%); 
+}
+.nombre-panier {
+    position: absolute;
+    color: red;
+    font-weight: bold;
+    font-size: 0.7em;
+    top:37%;
+    right: 15px;
+    transform: translateY(-50%); 
+}
+.logo {
+height: 30px;
+width: 100px;
+margin: 0 auto;
+}
+/* ---------- BANNIERE ---------------*/
+.banniere {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        font-weight: bold;
+        color: brown;
+        text-align: center;
+        width: 80%;
 
+    }
+}
   /* ------- ZONE DE RECHERCHE ---------- */
   .searchform {
     
-    input {
-        
+    form {
+        width: 100%;
     }
     span {
         position: relative;
@@ -68,28 +102,33 @@
 }
 
 .card {
+    flex-direction: row;
     background-color: #fff;
     border-bottom: 1px solid rgba(0,0,0,0.4);
     text-decoration: none;
+    margin-bottom: 10px;
     transition: background-color,500ms;
-    &:hover {
-        background-color:darken($couleur4,10);
-    }
+    
     #id {
         visibility: none;
     }
 }
+.card2:hover {
+    background-color: #fff;
+    
+}
 .photo {
+    width: 30%;
     max-width: 100px;
     margin: 0 5px;
     padding-top: 10px;
+    &-mini {
+        max-width: 70px;
+    }
 }
 .descry {
     display: flex;
     flex-direction: column;
-    p {
-        margin-bottom: 20px;
-    }
 }
 .description {
     color : rgba(0,0,0, 0.8);
@@ -100,7 +139,7 @@
 
 .nom {
     color : $couleur1 ;
-    margin: 0;
+    margin-top: 10px;
     font-weight: bold;
     text-transform: uppercase;
     
@@ -109,7 +148,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    //align-items: flex-start;
     position: relative;
     text-shadow: 0 0 2px rgba(0,0,0,0.4);
     color: red;
@@ -126,14 +165,18 @@
     
 }
 .card1 {
+    display: flex;
     flex-direction: row;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    max-height: 150px;
+    width: 100%;
+    @media only screen and (min-width: 700px) {
+        width: 48%;
+    }
 }
-.card1:hover {
-    background-color: #fff;
-}
+
 #btnAjoutPanier {
-    position: fixed;
-    bottom: 0;
+    
     width: 100%;
     margin: 0 auto;
 }
@@ -142,6 +185,10 @@
     border: none;
     padding: 5px;
     margin: 0 5px;
+    
+    &:active {
+        outline: none;
+    }
 }
 #total {
     padding : 10px;
@@ -154,7 +201,44 @@
     margin-bottom: 10px;
     
 }
-.row {
-    flex-direction: row;
-    flex-wrap: nowrap;
+.remerciement {
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+.synthese {
+    display: flex;
+    flex-direction: column;
+    @media only screen and (min-width: 700px) {
+        flex-direction: row;
+    }
+}
+.infos {
+    width: 100%;
+   
+}
+.boutons {
+    position:static;
+    display: flex;
+    flex-direction: column;
+    @media only screen and (min-width: 700px) {
+        flex-direction: row;
+    }
+}
+#conteneur {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    @media only screen and (min-width: 700px) {
+        flex-direction: row;
+    }
+}
+#infos-client {
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, .2);
+    
+}
+footer {
+    height: 100px;
+    background-color: rgba(0,0,0,0.8);
+    margin-top : 10px;
 }

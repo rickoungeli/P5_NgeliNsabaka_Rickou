@@ -4,22 +4,49 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: whitesmoke;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.8);
-  background: whitesmoke;
+  background: #fff;
+  margin: 0 auto;
   font-size: 0.8em;
+  width: 100%;
+}
+@media only screen and (min-width: 700px) {
+  body {
+    width: 70%;
+  }
 }
 
 img {
-  width: 100%;
+  width: 90%;
+}
+
+h1 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+h2 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+p {
+  margin-bottom: 5px;
 }
 
 /* ------- HEADER ---------- */
-.header {
+header {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .lignelogo {
@@ -53,7 +80,24 @@ img {
   margin: 0 auto;
 }
 
+/* ---------- BANNIERE ---------------*/
+.banniere {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banniere p {
+  font-weight: bold;
+  color: brown;
+  text-align: center;
+  width: 80%;
+}
+
 /* ------- ZONE DE RECHERCHE ---------- */
+.searchform form {
+  width: 100%;
+}
 .searchform span {
   position: relative;
   margin-top: 4px;
@@ -67,30 +111,34 @@ img {
 }
 
 .card {
+  flex-direction: row;
   background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   text-decoration: none;
+  margin-bottom: 10px;
   transition: background-color, 500ms;
-}
-.card:hover {
-  background-color: gainsboro;
 }
 .card #id {
   visibility: none;
 }
 
+.card2:hover {
+  background-color: #fff;
+}
+
 .photo {
+  width: 30%;
   max-width: 100px;
   margin: 0 5px;
   padding-top: 10px;
+}
+.photo-mini {
+  max-width: 70px;
 }
 
 .descry {
   display: flex;
   flex-direction: column;
-}
-.descry p {
-  margin-bottom: 20px;
 }
 
 .description {
@@ -103,7 +151,7 @@ img {
 
 .nom {
   color: #9356DC;
-  margin: 0;
+  margin-top: 10px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -112,7 +160,6 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
   position: relative;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   color: red;
@@ -128,16 +175,19 @@ img {
 }
 
 .card1 {
+  display: flex;
   flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  max-height: 150px;
+  width: 100%;
 }
-
-.card1:hover {
-  background-color: #fff;
+@media only screen and (min-width: 700px) {
+  .card1 {
+    width: 48%;
+  }
 }
 
 #btnAjoutPanier {
-  position: fixed;
-  bottom: 0;
   width: 100%;
   margin: 0 auto;
 }
@@ -147,6 +197,9 @@ img {
   border: none;
   padding: 5px;
   margin: 0 5px;
+}
+.btn-decrement:active {
+  outline: none;
 }
 
 #total {
@@ -161,9 +214,56 @@ img {
   margin-bottom: 10px;
 }
 
-.row {
-  flex-direction: row;
-  flex-wrap: nowrap;
+.remerciement {
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.synthese {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 700px) {
+  .synthese {
+    flex-direction: row;
+  }
+}
+
+.infos {
+  width: 100%;
+}
+
+.boutons {
+  position: static;
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 700px) {
+  .boutons {
+    flex-direction: row;
+  }
+}
+
+#conteneur {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+@media only screen and (min-width: 700px) {
+  #conteneur {
+    flex-direction: row;
+  }
+}
+
+#infos-client {
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+footer {
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */
