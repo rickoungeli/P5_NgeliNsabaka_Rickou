@@ -1,5 +1,5 @@
 @import "./variables.scss";
-*, ::before, ::after {
+*, ::before, ::after, p {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -28,10 +28,7 @@
       font-weight: bold;
       margin-top: 15px;
   }
-  p {
-    margin-bottom: 5px ;
-    
-}
+ select {min-width: 80px;}
   /* ------- HEADER ---------- */
 header {
     display: flex;
@@ -120,6 +117,7 @@ margin: 0 auto;
 .photo {
     width: 30%;
     max-width: 100px;
+    min-width: 50px;
     margin: 0 5px;
     padding-top: 10px;
     &-mini {
@@ -129,41 +127,44 @@ margin: 0 auto;
 .descry {
     display: flex;
     flex-direction: column;
+    .nom {
+        color : $couleur1 ;
+        margin-top: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .description {
+        color : rgba(0,0,0, 0.8);
+    }
+    .prix {
+        color: red;   
+        
+    }
+    .groupe-prix-qte {
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 5px;
+        
+        
+    }
+    .groupe-qte, .groupe-prix {
+        display:flex;
+        flex-direction: row;
+        border: 1px solid rgba(0,0,0,0.4)
+    }
 }
-.description {
-    color : rgba(0,0,0, 0.8);
-}
+
+
+
+
 #cle, #prix-unitaire {
     display: none;
 }
 
-.nom {
-    color : $couleur1 ;
-    margin-top: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    
-}
-.prix {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    //align-items: flex-start;
-    position: relative;
-    text-shadow: 0 0 2px rgba(0,0,0,0.4);
-    color: red;
-    p {
-        
-        font-weight: bold;
-        font-size: 1em;
-    }
-    p:nth-child(2) {
-        position: relative;
-        font-size: .9em;
-        top: -20%;
-    }
-    
-}
+
+
 .card1 {
     display: flex;
     flex-direction: row;
@@ -190,6 +191,8 @@ margin: 0 auto;
         outline: none;
     }
 }
+
+
 #total {
     padding : 10px;
     text-align: center;

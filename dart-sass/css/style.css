@@ -1,4 +1,4 @@
-*, ::before, ::after {
+*, ::before, ::after, p {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -38,8 +38,8 @@ h2 {
   margin-top: 15px;
 }
 
-p {
-  margin-bottom: 5px;
+select {
+  min-width: 80px;
 }
 
 /* ------- HEADER ---------- */
@@ -129,6 +129,7 @@ header {
 .photo {
   width: 30%;
   max-width: 100px;
+  min-width: 50px;
   margin: 0 5px;
   padding-top: 10px;
 }
@@ -140,38 +141,33 @@ header {
   display: flex;
   flex-direction: column;
 }
-
-.description {
-  color: rgba(0, 0, 0, 0.8);
-}
-
-#cle, #prix-unitaire {
-  display: none;
-}
-
-.nom {
+.descry .nom {
   color: #9356DC;
   margin-top: 10px;
   font-weight: bold;
   text-transform: uppercase;
 }
-
-.prix {
+.descry .description {
+  color: rgba(0, 0, 0, 0.8);
+}
+.descry .prix {
+  color: red;
+}
+.descry .groupe-prix-qte {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: relative;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-  color: red;
+  align-items: center;
+  border-radius: 5px;
 }
-.prix p {
-  font-weight: bold;
-  font-size: 1em;
+.descry .groupe-qte, .descry .groupe-prix {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
-.prix p:nth-child(2) {
-  position: relative;
-  font-size: 0.9em;
-  top: -20%;
+
+#cle, #prix-unitaire {
+  display: none;
 }
 
 .card1 {

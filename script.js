@@ -46,7 +46,7 @@ if (page==''){
                         <div class='descry'>
                             <p class='nom'>${data.name}</p>
                             <p class='description'>${data.description}</p>
-                            <div class='prix'><p>${separerLesMilliers(data.price/100)}€</p></div>
+                            <p class='prix'>${separerLesMilliers(data.price/100)}€</p>
                         </div>
                     </a>
                 `
@@ -72,7 +72,7 @@ if (page==2){
 if (page=='3'){
     //Si le panier existe dans le local storage :
     // j'affiche le panier et le formuraire d'identification du client
-    if (localStorage.getItem('nbrePanier')) {
+    if (localStorage.getItem('panier')) {
         affichePanier()
         afficheFormulaireClient()
     }
@@ -139,23 +139,36 @@ if (page==4){
 
 //Fonction pour afficher la fiche d'un produit depuis la liste des produits (page 1)
 function afficheTeddy(teddy) {
+    const couleurs = teddy.colors
+    console.log (couleurs)
     conteneur.innerHTML =
     `
         <div class='card card2 p-2'>
-            <div class='photo'>
-                <img src=${teddy.imageUrl}>
-            </div>
+            
             <div class='descry'>
+                <div class='photo'>
+                    <img src=${teddy.imageUrl}>
+                </div>
                 <p class='nom'>${teddy.name}</p>
                 <p class='description'>${teddy.description}</p>
-                <div class='prix'>
+                <div class='groupe-prix-qte'>
                     <p>${separerLesMilliers(teddy.price/100)} €</p>
+                    <form>
+                    <p>Couleur : </p>
+                    <select name="color" id="color">
+                       
+                    </select>
+                    </form>
                 </div>
             </div>
             
         </div>
 
     `
+    let select = document.querySelector('#color')
+    for (i=0; i<couleurs.length; i++) {
+        select.options[i] = new Option(couleurs[i],i)
+    }
 }
 
 //Fonction pour ajouter des produits au panier depuis la fiche produit (page 2)
@@ -213,63 +226,71 @@ function affichePanier() {
                 <p class='description'>${produits[i].description}</p>
                 <p id="cle">${produits[i]._id}</p>
                 <p id="prix-unitaire">${produits[i].price/100}</p>
-                <div class='groupe-prix'>
-                    <p id="prix">${separerLesMilliers(prix)} €</p>
-                    <p id="groupe-qte">
+                <div class="groupe-prix-qte">
+                    <div class='groupe-prix'>
+                        <p class="prix" id="prix">${separerLesMilliers(prix)}</p>
+                        <p class="prix">€</p>
+                    </div>
+                    <div class="groupe-qte">
                         <button class="btn btn-success btn-decrement" id="decrement">-</button>
-                        <div class="qte">${produits[i].quantite}</div>
+                        <p id="qte">${produits[i].quantite}</p>
                         <button class="btn btn-success btn-decrement" id="increment">+</button>
-                    </p>
+                    </div>
                 </div>
             </div>
         `
-      
-        let cle = card.querySelector('#cle')
-        let qte = card.querySelector(".qte")
+        let total = document.getElementById('total')
+        let divcle = card.querySelector('#cle')
+        let divqte = card.querySelector("#qte")
+        let divprix = card.querySelector("#prix")
+        let divpu = card.querySelector("#prix-unitaire")
 
         //pour dimininuer la quantité d'un produit
         card.querySelector('#decrement').addEventListener('click', (e) => {
             produits = JSON.parse(localStorage.getItem('panier'))
             nbrePanier = localStorage.getItem('nbrePanier')
             for (i=0; i<produits.length; i++) {
-                if (cle.innerHTML === produits[i]._id) {
+                if (divcle.innerHTML === produits[i]._id) {
                     produits[i].quantite -= 1
-                    nbrePanier--
+                    nbrePanier--  
+                    prixTotal -= (produits[i].price/100)     
                     localStorage.setItem('nbrePanier', nbrePanier)
                     localStorage.setItem('panier', JSON.stringify(produits))
-                    let total = document.getElementById('total')
-                    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
-                    qte.innerHTML = produits[i].quantite
                     
+                    AfficherNombreProduits()
+                    prix = card.querySelector("#prix").innerHTML
+                    divprix.innerHTML = (produits[i].price * produits[i].quantite)/100
+                    divqte.innerHTML = produits[i].quantite
+                    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
                     break
                 }
             } 
-
-        })
-        //pour augmenter la quantité la quantité d'un produit
-        // card.getElementById('increment').addEventListener('click', (e) => {
-        //     produits = JSON.parse(localStorage.getItem('panier'))
-        //     nbrePanier = localStorage.getItem('nbrePanier')
-        //     for (i=0; i<produits.length; i++) {
-        //         if (cle.innerHTML === produits[i]._id) {
-        //             produits[i].quantite += 1
-        //             nbrePanier++
-        //             //prixTotal += card.getElementById('prix-unitaire').innerHTML
-        //             localStorage.setItem('nbrePanier', nbrePanier)
-        //             localStorage.setItem('panier', JSON.stringify(produits))
-        //             let total = document.getElementById('total')
-        //             total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
-        //             qte.innerHTML = produits[i].quantite
-        //             break
-        //         }
-        //     }  
-        // })
-
-        
-    } 
+        }) 
+        //pour augmenter la quantité d'un produit
+        card.querySelector('#increment').addEventListener('click', (e) => {
+            produits = JSON.parse(localStorage.getItem('panier'))
+            nbrePanier = localStorage.getItem('nbrePanier')
+            for (i=0; i<produits.length; i++) {
+                if (divcle.innerHTML === produits[i]._id) {
+                    produits[i].quantite += 1
+                    nbrePanier++ 
+                    prixTotal += (produits[i].price/100)                   
+                    localStorage.setItem('nbrePanier', nbrePanier)
+                    localStorage.setItem('panier', JSON.stringify(produits))
+                    
+                    AfficherNombreProduits()
+                    prix = card.querySelector("#prix").innerHTML
+                    divprix.innerHTML = (produits[i].price * produits[i].quantite)/100
+                    divqte.innerHTML = produits[i].quantite
+                    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+                    break
+                }
+            } 
+        }) 
+    }
     
-    let total = document.getElementById('total')
-    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+    //let total = document.getElementById('total')
+    //total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
 }
 
 //Fonction pour afficher le formulaire client
