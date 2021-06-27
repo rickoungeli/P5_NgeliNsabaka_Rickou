@@ -22,6 +22,10 @@ body {
   }
 }
 
+main {
+  min-height: 80vh;
+}
+
 img {
   width: 90%;
 }
@@ -44,27 +48,26 @@ select {
 
 /* ------- HEADER ---------- */
 header {
-  display: flex;
-  flex-direction: column;
-  padding: 15px 0;
+  padding: 0 0 15px 0;
+  height: 15vh;
 }
-
-.lignelogo {
+header .lignelogo {
+  position: fixed;
   display: flex;
   flex-direction: row;
-  position: relative;
+  width: 100%;
   padding: 5px 10px;
+  background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  z-index: 1000;
 }
-
-.panier {
+header .panier {
   position: absolute;
   top: 65%;
   right: 13px;
   transform: translateY(-50%);
 }
-
-.nombre-panier {
+header .nombre-panier {
   position: absolute;
   color: red;
   font-weight: bold;
@@ -73,8 +76,7 @@ header {
   right: 15px;
   transform: translateY(-50%);
 }
-
-.logo {
+header .logo {
   height: 30px;
   width: 100px;
   margin: 0 auto;
@@ -82,14 +84,22 @@ header {
 
 /* ---------- BANNIERE ---------------*/
 .banniere {
-  height: 100px;
+  background-color: #bfddb3;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.banniere2 {
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #dbecd4;
+  border-radius: 30px;
 }
-.banniere p {
+.banniere2 p {
   font-weight: bold;
-  color: brown;
+  color: black;
   text-align: center;
   width: 80%;
 }
@@ -123,7 +133,7 @@ header {
 }
 
 .card2:hover {
-  background-color: #fff;
+  background-color: #f8f5f5;
 }
 
 .photo {
@@ -137,33 +147,36 @@ header {
   max-width: 70px;
 }
 
+.prix {
+  color: red;
+}
+
+.nom {
+  color: #9356DC;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.description {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .descry {
   display: flex;
   flex-direction: column;
 }
-.descry .nom {
-  color: #9356DC;
-  margin-top: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-.descry .description {
-  color: rgba(0, 0, 0, 0.8);
-}
-.descry .prix {
-  color: red;
-}
-.descry .groupe-prix-qte {
+
+.groupe-prix-qte {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
 }
-.descry .groupe-qte, .descry .groupe-prix {
+
+.groupe-qte, .groupe-prix {
   display: flex;
   flex-direction: row;
-  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 #cle, #prix-unitaire {
@@ -198,6 +211,30 @@ header {
   outline: none;
 }
 
+.boutons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 0 5px;
+}
+@media only screen and (min-width: 400px) {
+  .boutons {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+.boutons .btn {
+  font-size: 1em;
+  width: 100%;
+  margin-top: 5px;
+}
+@media only screen and (min-width: 400px) {
+  .boutons .btn {
+    width: 45%;
+  }
+}
+
 #total {
   padding: 10px;
   text-align: center;
@@ -206,8 +243,67 @@ header {
   margin: 10px 0;
 }
 
+#form-client {
+  background-color: rgba(181, 236, 199, 0.2);
+}
+
+.form {
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.form h2 {
+  text-transform: uppercase;
+  border-bottom: 1px solid black;
+  margin: 10px 0 20px 0;
+}
+
 .form-group {
   margin-bottom: 10px;
+  position: relative;
+}
+
+.form-group i {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  visibility: hidden;
+}
+
+.form-group small {
+  visibility: hidden;
+}
+
+.form-group.success input {
+  border-color: #2ecc71;
+}
+
+.form-group.error input {
+  border: 2px solid #e74c3c;
+}
+
+.form-group.success i.fa-check-circle {
+  color: #2ecc71;
+  visibility: visible;
+}
+
+.form-group.error i.fa-exclamation-circle {
+  visibility: visible;
+  color: #e74c3c;
+}
+
+.form-group.error small {
+  color: #e74c3c;
+  visibility: visible;
+}
+
+tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+td {
+  padding: 10px 20px;
 }
 
 .remerciement {
@@ -227,17 +323,6 @@ header {
 
 .infos {
   width: 100%;
-}
-
-.boutons {
-  position: static;
-  display: flex;
-  flex-direction: column;
-}
-@media only screen and (min-width: 700px) {
-  .boutons {
-    flex-direction: row;
-  }
 }
 
 #conteneur {
@@ -260,6 +345,26 @@ footer {
   height: 100px;
   background-color: rgba(0, 0, 0, 0.8);
   margin-top: 10px;
+}
+
+.notification {
+  background-color: aquamarine;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  width: 90%;
+  display: none;
+  transition: display 2s;
+}
+
+@keyframes notification-ajout-panier {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(-60%);
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

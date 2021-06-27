@@ -14,12 +14,12 @@ AfficherNombreProduits()
 
 
 //J'envoie la reqûete (fetch) stockée dans la variable "reqFetch" et j'attend les résultats "response"
-//Je reçois une reponse en forme de promesse, je la convetie en objet JSON appelé 'datas'
+//Je reçois une reponse en forme de promesse, je la convertie en objet JSON appelé 'datas'
 if (page==''){
     //Pour rechercher des produits 
     searchZone.addEventListener('input', (e) => {
-    searchTerm = e.target.value //Je récupère tout ce qui est tapé dans l'input
-    afficherData()
+        searchTerm = e.target.value //Je récupère tout ce qui est tapé dans l'input
+        afficherData()
     })
 
     //Requete pour recupérer les produits
@@ -39,7 +39,8 @@ if (page==''){
                 ))
                 .map(data => ( //Traitement de chaque élément (data) de l'objet datas
                 `
-                    <a class='card' href='ficheproduit.html?page=2&id=${data._id}'>
+                <div class = 'row'>
+                    <a class='card card2 col-sx-12 col-sm-6' href='ficheproduit.html?page=2&id=${data._id}'>
                         <div class='photo'>
                             <img src="${data.imageUrl}">
                         </div>
@@ -49,6 +50,7 @@ if (page==''){
                             <p class='prix'>${separerLesMilliers(data.price/100)}€</p>
                         </div>
                     </a>
+                </div>
                 `
                 )).join('')
         )
@@ -66,7 +68,7 @@ if (page==2){
         ajoutPanier(teddy)  
     }))
     .catch(error => alert ("Erreur : " + error)) 
-     
+    
 }
 
 if (page=='3'){
@@ -75,65 +77,22 @@ if (page=='3'){
     if (localStorage.getItem('panier')) {
         affichePanier()
         afficheFormulaireClient()
+        
     }
     else {
         //sinon, j'affiche un message => le panier est vide
         conteneur.innerHTML = `
-                VOTRE PANIER EST VIDE
+                <h2 class='text-center w-100'>VOTRE PANIER EST VIDE</h2>
             `
     }
-    
-    enregistrerFormulaire()
+    commander()
 }
 
 if (page==4){
-    //Affichage de la synthèse commande
-    produits = JSON.parse(localStorage.getItem('panier'))
-    for (i=0; i<produits.length; i++) {
-        let prix = (produits[i].price * produits[i].quantite)/100
-        prixTotal += prix
-        let card = document.createElement("div")
-        card.classList.add('card1')
-        card.classList.add('p-2')
-        conteneur.appendChild(card)
-        card.innerHTML = `
-        
-            <div class='photo-mini'>
-                <img src=${produits[i].imageUrl}>
-            </div>
-            <div class='decry'>
-                <p class='nom'>Nom : ${produits[i].name}</p>
-                <p id="quantite">Quantité : ${produits[i].quantite}</p>
-                <p id="prix-total">Prix : ${separerLesMilliers(prix)} €</p>
-            </div>
-        
-        `
-    }
-    /*
-    let total = document.getElementById('total')
-    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
-    */
-
-    //Affichage de l'identité du client
-    let infosClient = JSON.parse(localStorage.getItem('infosClient'))
-    let card = document.createElement("div")
-        card.classList.add('card1')
-        card.classList.add('p-2')
-        document.getElementById('infos-client').appendChild(card)
-        card.innerHTML = `
-        
-            <div class='descry'>
-               
-                <p class=''>Préom : ${infosClient.firstname}</p>
-                <p class=''>Nom : ${infosClient.name}</p>
-                <p id="prix-total">Email : ${infosClient.email}</p>
-                <p id="quantite">Adresse : ${infosClient.adress}</p>
-                <p id="prix-total">Ville : ${infosClient.city}</p>
-                
-            </div>
-        
-        `
+    afficherSyntheseCommande()
+    afficherInfosClient()
 }
+
 
 //--------------------------------LES FONCTIONS -------------------------------------//
 
@@ -152,12 +111,11 @@ function afficheTeddy(teddy) {
                 <p class='nom'>${teddy.name}</p>
                 <p class='description'>${teddy.description}</p>
                 <div class='groupe-prix-qte'>
-                    <p>${separerLesMilliers(teddy.price/100)} €</p>
+                    <p class='prix'>${separerLesMilliers(teddy.price/100)} €</p>
                     <form>
-                    <p>Couleur : </p>
-                    <select name="color" id="color">
-                       
-                    </select>
+                        <p>Couleur : </p>
+                        <select name="color" id="color">
+                        </select>
                     </form>
                 </div>
             </div>
@@ -169,11 +127,12 @@ function afficheTeddy(teddy) {
     for (i=0; i<couleurs.length; i++) {
         select.options[i] = new Option(couleurs[i],i)
     }
+    btnAjoutPanier.addEventListener("click", ()=> document.querySelector('.notification').style.display='block')
 }
 
 //Fonction pour ajouter des produits au panier depuis la fiche produit (page 2)
 function ajoutPanier(teddy) {
-    let btnAjoutPanier = document.getElementById('btnAjoutPanier')
+    let btnAjoutPanier = document.querySelector('#btnAjoutPanier')
     btnAjoutPanier.addEventListener('click', (e) => {
         if (localStorage.getItem('panier')) {
             produits = JSON.parse(localStorage.getItem('panier'))
@@ -200,8 +159,7 @@ function ajoutPanier(teddy) {
         localStorage.setItem('nbrePanier', nbrePanier)
         localStorage.setItem('panier', JSON.stringify(produits))
         AfficherNombreProduits()
-        window.location = 'index.html'
-        
+        btnAjoutPanier.className = "d-none"
     })
 }
 
@@ -246,7 +204,8 @@ function affichePanier() {
         let divpu = card.querySelector("#prix-unitaire")
 
         //pour dimininuer la quantité d'un produit
-        card.querySelector('#decrement').addEventListener('click', (e) => {
+        const decrement = card.querySelector('#decrement')
+        decrement.addEventListener('click', (e) => {
             produits = JSON.parse(localStorage.getItem('panier'))
             nbrePanier = localStorage.getItem('nbrePanier')
             for (i=0; i<produits.length; i++) {
@@ -267,7 +226,8 @@ function affichePanier() {
             } 
         }) 
         //pour augmenter la quantité d'un produit
-        card.querySelector('#increment').addEventListener('click', (e) => {
+        const increment = card.querySelector('#increment')
+        increment.addEventListener('click', (e) => {
             produits = JSON.parse(localStorage.getItem('panier'))
             nbrePanier = localStorage.getItem('nbrePanier')
             for (i=0; i<produits.length; i++) {
@@ -289,40 +249,16 @@ function affichePanier() {
         }) 
     }
     
-    //let total = document.getElementById('total')
-    //total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+    afficherPrixTotal()
+
 }
 
 //Fonction pour afficher le formulaire client
 function afficheFormulaireClient() {    
-    document.getElementById('infos-client').innerHTML = `
-        <div  id="infos-client">
-          <form id="form-client" class="form">
-              <h2>Informations sur le client</h2>
-              <div class="form-group">
-                <label for="prenom" >Prénom :</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" >
-              </div>
-              <div class="form-group">
-                <label for="nom" >Nom :</label>
-                <input type="text" class="form-control" id="nom" name="nom">
-              </div>
-              <div class="form-group">
-                <label for="adresse" >Adresse :</label>
-                <input type="text" class="form-control" id="adresse" name="adresse">
-              </div>
-              <div class="form-group">
-                <label for="ville" >Ville :</label>
-                <input type="text" class="form-control" id="ville" name="ville">
-              </div>
-              <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" class=" form-control" id="email" name="email">
-              </div>
-          </form>
-        </div>
-        <button class="btn btn-success" id="btn-commander">COMMANDER</button>
-        `
+    const infosClient = document.querySelector('#infos-client')
+    infosClient.removeAttribute('class')
+        
+
         if (localStorage.getItem('infosClient')) {
             let dataClient = JSON.parse(localStorage.getItem('infosClient'))
             document.querySelector('#prenom').setAttribute('value', dataClient.firstname)
@@ -334,21 +270,122 @@ function afficheFormulaireClient() {
         } 
 }
 
-//Fonction poue enregistrer le formulaire client et afficher la page résumé
-function enregistrerFormulaire() {
+//Fonction pour enregistrer la commande  et afficher la page résumé
+function commander() {
+
     const btnValider = document.querySelector('#btn-commander')
+    console.log(btnValider)
     btnValider.addEventListener('click', (e) => {
-        let formulaireClient = {}
-        formulaireClient = {
-            firstname: document.querySelector('#prenom').value,
-            name: document.querySelector('#nom').value,
-            adress: document.querySelector('#adresse').value,
-            city: document.querySelector('#ville').value,
-            email: document.querySelector('#email').value
+        //On vérifie si le formulaire client est bien renseigné
+        let hasError = false
+        const prenom = document.getElementById('prenom')
+        const nom = document.getElementById('nom')
+        const adresse = document.getElementById('adresse')
+        const ville = document.getElementById('ville')
+        const email = document.getElementById('email')
+
+        const prenomValue = prenom.value.trim()
+        const nomValue = nom.value.trim()
+        const adresseValue = adresse.value.trim()
+        const villeValue = ville.value.trim()
+        const emailValue = email.value.trim()
+
+        if (prenomValue === '') {
+            setErrorFor(prenom, 'Veuillez taper votre prénom')
+            hasError = true
+        } else if (prenomValue.length < 2 || prenomValue.length > 30) {
+            setErrorFor(prenom, 'Le prénom doit comprendre entre 2 et 30 caractères')
+            hasError = true
+        } else {
+            setSuccessFor(prenom)
         }
-        localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
-        window.location = 'synthesecommande.html?page=4'
+        if (nomValue === '') {
+            setErrorFor(nom, 'Veuillez taper votre nom')
+            hasError = true
+        } else {
+            setSuccessFor(nom)
+        }
+        if (adresseValue === '') {
+            setErrorFor(adresse, 'Veuillez taper votre adresse')
+            hasError = true
+        } else {
+            setSuccessFor(adresse)
+        }
+        if (villeValue === '') {
+            setErrorFor(ville, 'Veuillez taper la ville')
+            hasError = true
+        } else {
+            setSuccessFor(ville)
+        }
+        if (emailValue === '') {
+            setErrorFor(email, 'Veuillez taper votre e-mail')
+            hasError = true
+        } else if (!isEmail(emailValue)) {
+            setErrorFor(email, 'Veuillez taper un e-mail valide')
+            hasError = true
+        } else {
+            setSuccessFor(email)
+        }
+        //on enregistre le formulaire client dans localstorage et on affiche la page synthèse
+        if (!hasError) {
+            let formulaireClient = {}
+            formulaireClient = {
+                firstname: prenomValue,
+                name: nomValue,
+                adress: adresseValue,
+                city: villeValue,
+                email: emailValue
+            }
+            localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
+            window.location = 'synthesecommande.html?page=4'
+        }
     })
+
+}
+
+//Fonction pour afficher la synthèse commande
+function afficherSyntheseCommande() {
+    produits = JSON.parse(localStorage.getItem('panier'))
+    for (i = 0; i < produits.length; i++) {
+        let prix = (produits[i].price * produits[i].quantite) / 100
+        prixTotal += prix
+        let card = document.createElement("div")
+        card.classList.add('card1')
+        card.classList.add('p-2')
+        conteneur.appendChild(card)
+        card.innerHTML = `
+            <div class='photo-mini'>
+                <img src=${produits[i].imageUrl}>
+            </div>
+            <div class='decry'>
+                <p class='nom'>Nom : ${produits[i].name}</p>
+                <p id="quantite">Quantité : ${produits[i].quantite}</p>
+                <p id="prix-total">Prix : ${separerLesMilliers(prix)} €</p>
+            </div>
+        `
+
+    }
+    btnConfirmerCommande.addEventListener('click',()=>{
+        localStorage.clear()
+        window.location='pagepanier.html?page=3'
+    })
+}
+
+//Fonction pour afficher les informations du client
+function afficherInfosClient() {
+    let infosClient = JSON.parse(localStorage.getItem('infosClient'))
+    let card = document.createElement("div")
+    card.setAttribute("class","card1 p-2")
+    card.innerHTML = `
+        <div class='descry'>
+            <p class=''>Préom : ${infosClient.firstname}</p>
+            <p class=''>Nom : ${infosClient.name}</p>
+            <p id="prix-total">Email : ${infosClient.email}</p>
+            <p id="quantite">Adresse : ${infosClient.adress}</p>
+            <p id="prix-total">Ville : ${infosClient.city}</p>
+        </div>
+    `
+    document.getElementById('infos-client').appendChild(card)
 }
 
 //Fonction pour séparer les milliers dans le champs prix
@@ -369,3 +406,57 @@ function AfficherNombreProduits() {
 
 
 
+ //Affichage du prix total
+ function afficherPrixTotal() {
+    let divPrixTotal = document.querySelector('#prix-total')
+    divPrixTotal.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+}
+ 
+function setErrorFor(input, message) {
+    const formGroup = input.parentElement
+    const small = formGroup.querySelector('small')
+    small.innerText = message
+    formGroup.className = 'form-group error'
+
+}
+function setSuccessFor(input) {
+    isValid = true
+    const formGroup = input.parentElement
+    formGroup.className = 'form-group success'
+}
+function isEmail(email) {
+    return /\S+@\S+\.\S+/.test(email)
+
+}
+
+
+/*
+function afficheFormulaireClient() {
+  document.getElementById('infos-client').innerHTML = `
+  <div  id="infos-client">
+    <form id="form-client" class="form">
+      <h2>Informations sur le client</h2>
+      <div class="form-group">
+        <label for="prenom" >Prénom :</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" >
+      </div>
+      <div class="form-group">
+        <label for="nom" >Nom :</label>
+        <input type="text" class="form-control" id="nom" name="nom">
+      </div>
+      <div class="form-group">
+        <label for="adresse" >Adresse :</label>
+        <input type="text" class="form-control" id="adresse" name="adresse">
+      </div>
+      <div class="form-group">
+        <label for="ville" >Ville :</label>
+        <input type="text" class="form-control" id="ville" name="ville">
+      </div>
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" class=" form-control" id="email" name="email">
+      </div>
+    </form>
+</div>
+<button class="btn btn-success" id="btn-commander">COMMANDER</button>
+*/

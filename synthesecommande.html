@@ -16,7 +16,7 @@
         
     </head>
     <body>
-        <header class="container">
+        <header class="header">
           <!-- Ligne d'entête -->
           <div class="lignelogo">
             <span class="bouton-menu"><i class="fas fa-bars"></i></span>
@@ -33,22 +33,25 @@
         
         <div class="remerciement">
           <h1>RESUME DE VOTRE COMMANDE</h1>
-          <P>Nous vous remercion de nous avoir fait confiance.</P>
+          <P>Nous vous remercions de nous avoir fait confiance.</P>
           <P>Veuillez confirmer votre commande</P>
         </div>
         <!--Affichage des produits -->
-        <div class="synthse">
-          <h2>VOTRE COMMANDE</h2>
+       
+          
           <div class="infos" id="conteneur">
+            <h2>VOTRE COMMANDE</h2>
           </div>
-        </div>
-        <div class="" id="infos-client">
+       
+        <div class="infos" id="prix-total"></div>
+        
+        <div class="infos" id="infos-client">
             <h2>VOS INFORMATIONS PERSONNELLES</h2>
         </div>
         
         <div class="boutons">
-          <button class="btn btn-succes">Valider la commande</button>
-          <button class="btn btn-succes">Modifier</button>
+          <button class="btn btn-success" id="btnConfirmerCommande"><span class="fa fa-check-circle"></span> Confirmer</button>
+          <a href="pagepanier.html?page=3" class="btn btn-danger"><span class="fa fa-pencil"></span> <span>Modifier</span></a>
         </div>
       </main>
       <footer></footer>

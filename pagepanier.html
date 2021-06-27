@@ -15,7 +15,7 @@
         
     </head>
     <body>
-        <header class="container">
+        <header class="header">
           <!-- Ligne d'entête -->
           <div class="lignelogo">
             <span class="bouton-menu"><i class="fas fa-bars"></i></span>
@@ -33,11 +33,58 @@
         <div id="conteneur">
           <h2>Votre panier :</h2>
         </div>
-        <div id="total"></div>
-        <div class="infos-client" id="infos-client"></div>
+        <div class="w-100 text-center p-2 prix" id="prix-total">
+
+        </div>
+        <div class="d-none" id="infos-client">
+          <form id="form-client" class="form">
+            <h2 class="text-center">Informations sur le client</h2>
+            <div class="form-group ">
+              <label for="prenom" >Prénom :</label>
+              <input type="text" id="prenom" name="prenom" class="form-control">
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Message</small>
+            </div>
+            <div class="form-group">
+              <label for="nom" >Nom :</label>
+              <input type="text"  id="nom" name="nom" class="form-control">
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small >Message</small>
+            </div>
+            <div class="form-group">
+              <label for="adresse" >Adresse :</label>
+              <input type="text"  id="adresse" name="adresse" class="form-control">
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Message</small>
+            </div>
+            <div class="form-group">
+              <label for="ville" >Ville :</label>
+              <input type="text"  id="ville" name="ville" class="form-control">
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Message</small>
+            </div>
+            <div class="form-group">
+              <label for="email">Email :</label>
+              <input type="mail" id="email" name="email" class="form-control">
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Message</small>
+            </div>
+        </form>
+         
+        </div>
+        <div class="groupe-prix-qte">
+          <button class="btn btn-success w-100" id="btn-commander">COMMANDER</button>
+          <div id="prix-total"></div>
+        </div>
       </main>
       <footer></footer>
       <script type="text/javascript" src="script.js" async></script> 
       
     </body>
 </html>
+

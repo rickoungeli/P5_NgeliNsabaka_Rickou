@@ -15,7 +15,7 @@
         <title>Fiche descriptif d'un produit</title>
     </head>
     <body>
-        <header class="container">
+        <header class="header">
             <!-- Ligne d'entête -->
             <div class="lignelogo">
                 <span class="bouton-menu"><i class="fas fa-bars"></i></span>
@@ -30,6 +30,11 @@
             <h1>FICHE PRODUIT</h1>
             <div id="conteneur"></div>
             <button class="btn btn-success" id="btnAjoutPanier">Ajouter au pannier</button>
+            <div class="notification">
+                <p>Votre produit a été ajouté au panier</p>
+                <a href="index.html" class="btn btn-success" id="btnContinuerMesAchats">Continuer mes achats</a>
+                <a href="pagepanier.html?page=3" class="btn btn-danger" id="btnVoirPanier">Voir mon panier</a>
+            </div>
         </main>
         <footer></footer>
         <script type="text/javascript" src="script.js" async></script>

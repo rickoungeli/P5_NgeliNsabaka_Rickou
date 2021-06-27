@@ -12,11 +12,13 @@
     margin: 0 auto;
     font-size: 0.8em;
     width: 100%;
-    
     @media only screen and (min-width: 700px) {
         width: 70%;
     }
   }
+  main {
+      min-height: 80vh;
+    }
   img {width: 90%;}
   h1 {
     font-size: 1.2em;
@@ -29,50 +31,59 @@
       margin-top: 15px;
   }
  select {min-width: 80px;}
-  /* ------- HEADER ---------- */
+
+/* ------- HEADER ---------- */
 header {
-    display: flex;
-    flex-direction: column;
-    padding: 15px 0;
-    
+    padding: 0 0 15px 0;
+    height: 15vh;
+    .lignelogo {
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        padding: 5px 10px;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0,0,0,0.4);
+        z-index: 1000;
+    }
+    .panier {
+        position: absolute;
+        top:65%;
+        right:13px;
+        transform: translateY(-50%); 
+    }
+    .nombre-panier {
+        position: absolute;
+        color: red;
+        font-weight: bold;
+        font-size: 0.7em;
+        top:37%;
+        right: 15px;
+        transform: translateY(-50%); 
+    }
+    .logo {
+    height: 30px;
+    width: 100px;
+    margin: 0 auto;
+    }
 }
-.lignelogo {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    padding: 5px 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.4);
-    //box-shadow: 0 0 2px rgba(0,0,0,0.4);
-}
-.panier {
-    position: absolute;
-    top:65%;
-    right:13px;
-    transform: translateY(-50%); 
-}
-.nombre-panier {
-    position: absolute;
-    color: red;
-    font-weight: bold;
-    font-size: 0.7em;
-    top:37%;
-    right: 15px;
-    transform: translateY(-50%); 
-}
-.logo {
-height: 30px;
-width: 100px;
-margin: 0 auto;
-}
+
 /* ---------- BANNIERE ---------------*/
 .banniere {
-    height: 100px;
+    background-color: rgb(191, 221, 179);
+    margin-bottom: 5px;
+    padding: 10px;
+}
+.banniere2 {
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(219, 236, 212);
+    border-radius: 30px;
     p {
         font-weight: bold;
-        color: brown;
+        color: rgb(0, 0, 0);
         text-align: center;
         width: 80%;
 
@@ -93,7 +104,7 @@ margin: 0 auto;
     }
   }
 
-  /* ------- CORPS ---------- */
+/* ------- CORPS ---------- */
 .conteneurProduits {
     min-width: 100vh;
 }
@@ -111,7 +122,7 @@ margin: 0 auto;
     }
 }
 .card2:hover {
-    background-color: #fff;
+    background-color: rgb(248, 245, 245);
     
 }
 .photo {
@@ -124,46 +135,33 @@ margin: 0 auto;
         max-width: 70px;
     }
 }
+.prix {color: red; }
+.nom {
+    color : $couleur1 ;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.description {color : rgba(0,0,0, 0.8); }
 .descry {
     display: flex;
     flex-direction: column;
-    .nom {
-        color : $couleur1 ;
-        margin-top: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-    .description {
-        color : rgba(0,0,0, 0.8);
-    }
-    .prix {
-        color: red;   
-        
-    }
-    .groupe-prix-qte {
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: 5px;
-        
-        
-    }
-    .groupe-qte, .groupe-prix {
-        display:flex;
-        flex-direction: row;
-        border: 1px solid rgba(0,0,0,0.4)
-    }
 }
-
-
-
+    
+.groupe-prix-qte {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px; 
+}
+.groupe-qte, .groupe-prix {
+    display:flex;
+    flex-direction: row;
+}
 
 #cle, #prix-unitaire {
     display: none;
 }
-
-
 
 .card1 {
     display: flex;
@@ -177,7 +175,6 @@ margin: 0 auto;
 }
 
 #btnAjoutPanier {
-    
     width: 100%;
     margin: 0 auto;
 }
@@ -191,7 +188,25 @@ margin: 0 auto;
         outline: none;
     }
 }
-
+.boutons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5px;
+    @media only screen and (min-width: 400px) {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .btn {
+        font-size: 1em;
+        width: 100%;
+        margin-top: 5px ;
+        @media only screen and (min-width: 400px) {
+            width: 45%;
+        }
+    }
+}
 
 #total {
     padding : 10px;
@@ -200,8 +215,57 @@ margin: 0 auto;
     color : white;
     margin: 10px 0;
 }
+#form-client {
+    background-color: rgba(181, 236, 199, 0.2);
+}
+.form {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    h2 {
+        text-transform: uppercase;
+        border-bottom: 1px solid black;
+        margin:10px 0 20px 0;
+    }
+}
 .form-group {
     margin-bottom: 10px;
+    position: relative;
+}
+.form-group i {
+    position: absolute;
+    right: 5px;
+    top:50%;
+    transform: translateY(-50%);
+    visibility: hidden;
+}
+.form-group small {
+    visibility: hidden;
+}
+.form-group.success input {
+   border-color : #2ecc71;
+    
+}
+.form-group.error input {
+    border:2px solid #e74c3c;
+}
+.form-group.success i.fa-check-circle {
+    color : #2ecc71;
+    visibility: visible;
+}
+.form-group.error i.fa-exclamation-circle {
+    visibility: visible;
+    color: #e74c3c;
+}
+.form-group.error small {
+    color: #e74c3c;
+    visibility: visible;
+}
+tr {
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+td {
+    padding: 10px 20px;
     
 }
 .remerciement {
@@ -219,14 +283,7 @@ margin: 0 auto;
     width: 100%;
    
 }
-.boutons {
-    position:static;
-    display: flex;
-    flex-direction: column;
-    @media only screen and (min-width: 700px) {
-        flex-direction: row;
-    }
-}
+
 #conteneur {
     display: flex;
     flex-direction: column;
@@ -244,4 +301,20 @@ footer {
     height: 100px;
     background-color: rgba(0,0,0,0.8);
     margin-top : 10px;
+}
+.notification {
+    background-color: aquamarine;
+    padding: 10px;
+    position:relative;
+    text-align: center;
+    margin: 0 auto;
+    width: 90%;
+    display: none;
+    transition: display 2s;
+}
+
+
+@keyframes notification-ajout-panier {
+    from {transform:translateY(100%);}
+    to {transform:translateY(-60%);}
 }
