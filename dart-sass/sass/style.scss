@@ -8,43 +8,41 @@
   body {
     font-family: Arial, Helvetica, sans-serif;
     color: rgba(0,0,0,0.8);
-    background: #fff;
+    background-color: rgb(235, 230, 230);
     margin: 0 auto;
     font-size: 0.8em;
     width: 100%;
-    @media only screen and (min-width: 700px) {
-        width: 70%;
-    }
+    
   }
   main {
-      min-height: 80vh;
+      padding: 0 10px;
+      background-color: #fff;
+      overflow: hidden;
     }
   img {width: 90%;}
   h1 {
     font-size: 1.2em;
     font-weight: bold;
     margin-top: 15px;
+    text-align: center;
+    color: green;
+    text-transform: uppercase;
   }
   h2 {
       font-size: 1em;
       font-weight: bold;
       margin-top: 15px;
+      color: green;
   }
  select {min-width: 80px;}
 
 /* ------- HEADER ---------- */
 header {
     padding: 0 0 15px 0;
-    height: 15vh;
+    height: 11vh;
     .lignelogo {
-        position: fixed;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        padding: 5px 10px;
-        background-color: #fff;
+        background-color: rgb(191, 243, 211);
         border-bottom: 1px solid rgba(0,0,0,0.4);
-        z-index: 1000;
     }
     .panier {
         position: absolute;
@@ -110,8 +108,8 @@ header {
 }
 
 .card {
+    display: flex;
     flex-direction: row;
-    background-color: #fff;
     border-bottom: 1px solid rgba(0,0,0,0.4);
     text-decoration: none;
     margin-bottom: 10px;
@@ -121,6 +119,16 @@ header {
         visibility: none;
     }
 }
+
+.card1 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    max-height: 150px;
+    
+}
+
 .card2:hover {
     background-color: rgb(248, 245, 245);
     
@@ -163,21 +171,10 @@ header {
     display: none;
 }
 
-.card1 {
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid rgba(0,0,0,0.4);
-    max-height: 150px;
-    width: 100%;
-    @media only screen and (min-width: 700px) {
-        width: 48%;
-    }
-}
 
-#btnAjoutPanier {
-    width: 100%;
-    margin: 0 auto;
-}
+
+
+
 .btn-decrement {
     line-height: .5;
     border: none;
@@ -189,23 +186,14 @@ header {
     }
 }
 .boutons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+
     padding: 0 5px;
-    @media only screen and (min-width: 400px) {
-        flex-direction: row;
-        justify-content: space-around;
-    }
+
     .btn {
         font-size: 1em;
-        width: 100%;
         margin-top: 5px ;
-        @media only screen and (min-width: 400px) {
-            width: 45%;
-        }
     }
+    
 }
 
 #total {
@@ -275,23 +263,11 @@ td {
 .synthese {
     display: flex;
     flex-direction: column;
-    @media only screen and (min-width: 700px) {
-        flex-direction: row;
-    }
-}
-.infos {
-    width: 100%;
-   
+ 
 }
 
-#conteneur {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    @media only screen and (min-width: 700px) {
-        flex-direction: row;
-    }
-}
+
+
 #infos-client {
     border-radius: 15px;
     background-color: rgba(255, 255, 255, .2);
@@ -302,6 +278,20 @@ footer {
     background-color: rgba(0,0,0,0.8);
     margin-top : 10px;
 }
+
+.hidden {visibility: hidden;}
+#btnAjoutPanier {
+    width: 100%;
+    margin: 0 auto;
+    transition: visibility 5ms ease-out;
+}
+#checkboxAjoutPanier {
+    visibility: hidden;
+    &:checked + .notification {
+        transform:translateY(-50%);
+    }
+}
+
 .notification {
     background-color: aquamarine;
     padding: 10px;
@@ -309,12 +299,7 @@ footer {
     text-align: center;
     margin: 0 auto;
     width: 90%;
-    display: none;
-    transition: display 2s;
+    transform:translateY(100%);
+    transition: transform 400ms linear;
 }
 
-
-@keyframes notification-ajout-panier {
-    from {transform:translateY(100%);}
-    to {transform:translateY(-60%);}
-}

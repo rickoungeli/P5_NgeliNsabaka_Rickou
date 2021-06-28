@@ -39,8 +39,7 @@ if (page==''){
                 ))
                 .map(data => ( //Traitement de chaque élément (data) de l'objet datas
                 `
-                <div class = 'row'>
-                    <a class='card card2 col-sx-12 col-sm-6' href='ficheproduit.html?page=2&id=${data._id}'>
+                    <a class='card card2 col-sx-12 col-sm-5 m-1' href='ficheproduit.html?page=2&id=${data._id}'>
                         <div class='photo'>
                             <img src="${data.imageUrl}">
                         </div>
@@ -50,7 +49,6 @@ if (page==''){
                             <p class='prix'>${separerLesMilliers(data.price/100)}€</p>
                         </div>
                     </a>
-                </div>
                 `
                 )).join('')
         )
@@ -76,6 +74,7 @@ if (page=='3'){
     // j'affiche le panier et le formuraire d'identification du client
     if (localStorage.getItem('panier')) {
         affichePanier()
+        afficherPrixTotal()
         afficheFormulaireClient()
         
     }
@@ -102,7 +101,7 @@ function afficheTeddy(teddy) {
     console.log (couleurs)
     conteneur.innerHTML =
     `
-        <div class='card card2 p-2'>
+        <div class='card p-2'>
             
             <div class='descry'>
                 <div class='photo'>
@@ -123,17 +122,19 @@ function afficheTeddy(teddy) {
         </div>
 
     `
+    //Chargement de l'option Couleur
     let select = document.querySelector('#color')
     for (i=0; i<couleurs.length; i++) {
         select.options[i] = new Option(couleurs[i],i)
     }
-    btnAjoutPanier.addEventListener("click", ()=> document.querySelector('.notification').style.display='block')
+    
 }
 
 //Fonction pour ajouter des produits au panier depuis la fiche produit (page 2)
 function ajoutPanier(teddy) {
-    let btnAjoutPanier = document.querySelector('#btnAjoutPanier')
+    const btnAjoutPanier = document.querySelector('#btnAjoutPanier')
     btnAjoutPanier.addEventListener('click', (e) => {
+        btnAjoutPanier.classList.add('hidden')
         if (localStorage.getItem('panier')) {
             produits = JSON.parse(localStorage.getItem('panier'))
             nbrePanier = localStorage.getItem('nbrePanier')
@@ -159,7 +160,8 @@ function ajoutPanier(teddy) {
         localStorage.setItem('nbrePanier', nbrePanier)
         localStorage.setItem('panier', JSON.stringify(produits))
         AfficherNombreProduits()
-        btnAjoutPanier.className = "d-none"
+        //btnAjoutPanier.className = "d-none"
+        document.querySelector('.notification').style.animation = "notification-ajout-panier 1s forwards;"
     })
 }
 
@@ -197,7 +199,7 @@ function affichePanier() {
                 </div>
             </div>
         `
-        let total = document.getElementById('total')
+        let total = document.querySelector('#total')
         let divcle = card.querySelector('#cle')
         let divqte = card.querySelector("#qte")
         let divprix = card.querySelector("#prix")
@@ -220,7 +222,7 @@ function affichePanier() {
                     prix = card.querySelector("#prix").innerHTML
                     divprix.innerHTML = (produits[i].price * produits[i].quantite)/100
                     divqte.innerHTML = produits[i].quantite
-                    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+                    afficherPrixTotal()
                     break
                 }
             } 
@@ -242,47 +244,43 @@ function affichePanier() {
                     prix = card.querySelector("#prix").innerHTML
                     divprix.innerHTML = (produits[i].price * produits[i].quantite)/100
                     divqte.innerHTML = produits[i].quantite
-                    total.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+                    afficherPrixTotal()
                     break
                 }
             } 
         }) 
     }
     
-    afficherPrixTotal()
+    
 
 }
 
-//Fonction pour afficher le formulaire client
+//Fonction pour afficher le formulaire client (page panier)s
 function afficheFormulaireClient() {    
     const infosClient = document.querySelector('#infos-client')
     infosClient.removeAttribute('class')
-        
+    if (localStorage.getItem('infosClient')) {
+        let dataClient = JSON.parse(localStorage.getItem('infosClient'))
+        document.querySelector('#prenom').setAttribute('value', dataClient.firstname)
+        document.querySelector('#nom').setAttribute('value', dataClient.name)
+        document.querySelector('#adresse').setAttribute('value', dataClient.adress)
+        document.querySelector('#ville').setAttribute('value', dataClient.city)
+        document.querySelector('#email').setAttribute('value', dataClient.email)
 
-        if (localStorage.getItem('infosClient')) {
-            let dataClient = JSON.parse(localStorage.getItem('infosClient'))
-            document.querySelector('#prenom').setAttribute('value', dataClient.firstname)
-            document.querySelector('#nom').setAttribute('value', dataClient.name)
-            document.querySelector('#adresse').setAttribute('value', dataClient.adress)
-            document.querySelector('#ville').setAttribute('value', dataClient.city)
-            document.querySelector('#email').setAttribute('value', dataClient.email)
-    
-        } 
+    } 
 }
 
 //Fonction pour enregistrer la commande  et afficher la page résumé
 function commander() {
-
     const btnValider = document.querySelector('#btn-commander')
-    console.log(btnValider)
     btnValider.addEventListener('click', (e) => {
         //On vérifie si le formulaire client est bien renseigné
         let hasError = false
-        const prenom = document.getElementById('prenom')
-        const nom = document.getElementById('nom')
-        const adresse = document.getElementById('adresse')
-        const ville = document.getElementById('ville')
-        const email = document.getElementById('email')
+        const prenom = document.querySelector('#prenom')
+        const nom = document.querySelector('#nom')
+        const adresse = document.querySelector('#adresse')
+        const ville = document.querySelector('#ville')
+        const email = document.querySelector('#email')
 
         const prenomValue = prenom.value.trim()
         const nomValue = nom.value.trim()
@@ -346,25 +344,30 @@ function commander() {
 //Fonction pour afficher la synthèse commande
 function afficherSyntheseCommande() {
     produits = JSON.parse(localStorage.getItem('panier'))
+    //let prixTotalPanier = localStorage.getItem('prixTotal')
+    //console.log(prixTotalPanier)
     for (i = 0; i < produits.length; i++) {
         let prix = (produits[i].price * produits[i].quantite) / 100
-        prixTotal += prix
+        prixTotal+=prix
         let card = document.createElement("div")
-        card.classList.add('card1')
-        card.classList.add('p-2')
+        card.setAttribute('class', 'card1 col-sx-12 col-sm-6 d-flex p-2')
         conteneur.appendChild(card)
         card.innerHTML = `
+        
             <div class='photo-mini'>
                 <img src=${produits[i].imageUrl}>
             </div>
             <div class='decry'>
                 <p class='nom'>Nom : ${produits[i].name}</p>
                 <p id="quantite">Quantité : ${produits[i].quantite}</p>
-                <p id="prix-total">Prix : ${separerLesMilliers(prix)} €</p>
+                <p id="prix">Prix : ${separerLesMilliers(prix)} €</p>
             </div>
+        
         `
 
     }
+    afficherPrixTotal()
+    
     btnConfirmerCommande.addEventListener('click',()=>{
         localStorage.clear()
         window.location='pagepanier.html?page=3'
@@ -385,7 +388,7 @@ function afficherInfosClient() {
             <p id="prix-total">Ville : ${infosClient.city}</p>
         </div>
     `
-    document.getElementById('infos-client').appendChild(card)
+    document.querySelector('#infos-client').appendChild(card)
 }
 
 //Fonction pour séparer les milliers dans le champs prix
@@ -406,7 +409,7 @@ function AfficherNombreProduits() {
 
 
 
- //Affichage du prix total
+ //Fonction pour afficher le prix total du panier
  function afficherPrixTotal() {
     let divPrixTotal = document.querySelector('#prix-total')
     divPrixTotal.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
@@ -430,33 +433,3 @@ function isEmail(email) {
 }
 
 
-/*
-function afficheFormulaireClient() {
-  document.getElementById('infos-client').innerHTML = `
-  <div  id="infos-client">
-    <form id="form-client" class="form">
-      <h2>Informations sur le client</h2>
-      <div class="form-group">
-        <label for="prenom" >Prénom :</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" >
-      </div>
-      <div class="form-group">
-        <label for="nom" >Nom :</label>
-        <input type="text" class="form-control" id="nom" name="nom">
-      </div>
-      <div class="form-group">
-        <label for="adresse" >Adresse :</label>
-        <input type="text" class="form-control" id="adresse" name="adresse">
-      </div>
-      <div class="form-group">
-        <label for="ville" >Ville :</label>
-        <input type="text" class="form-control" id="ville" name="ville">
-      </div>
-      <div class="form-group">
-        <label for="email">Email :</label>
-        <input type="email" class=" form-control" id="email" name="email">
-      </div>
-    </form>
-</div>
-<button class="btn btn-success" id="btn-commander">COMMANDER</button>
-*/

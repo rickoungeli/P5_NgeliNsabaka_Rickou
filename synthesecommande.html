@@ -18,7 +18,7 @@
     <body>
         <header class="header">
           <!-- Ligne d'entête -->
-          <div class="lignelogo">
+          <div class="lignelogo d-flex w-100 p-3 fixed-top">
             <span class="bouton-menu"><i class="fas fa-bars"></i></span>
             <a href="index.html" class="logo"><img class="img img-fluid " src="./images/logo.png" alt="Logo"></a>
             <a class="bloc-panier" href='pagepanier.html?page=3'>
@@ -29,7 +29,7 @@
         </header>
 
       <!-- Corps -->
-      <main class="container">
+      <main class="container pt-2">
         
         <div class="remerciement">
           <h1>RESUME DE VOTRE COMMANDE</h1>
@@ -38,20 +38,21 @@
         </div>
         <!--Affichage des produits -->
        
-          
-          <div class="infos" id="conteneur">
-            <h2>VOTRE COMMANDE</h2>
+        <h2>VOTRE COMMANDE CONTIENT</h2>
+          <div class="row" id="conteneur">
+            
           </div>
        
-        <div class="infos" id="prix-total"></div>
-        
+         
+        <div class="w-100 text-center p-2 prix" id="prix-total"></div>
+        <h2>VOS INFORMATIONS PERSONNELLES</h2>
         <div class="infos" id="infos-client">
-            <h2>VOS INFORMATIONS PERSONNELLES</h2>
+            
         </div>
         
-        <div class="boutons">
-          <button class="btn btn-success" id="btnConfirmerCommande"><span class="fa fa-check-circle"></span> Confirmer</button>
-          <a href="pagepanier.html?page=3" class="btn btn-danger"><span class="fa fa-pencil"></span> <span>Modifier</span></a>
+        <div class="boutons row text-center">
+          <button class="btn btn-success col-sx-12 col-sm-6" id="btnConfirmerCommande"><span class="fa fa-check-circle"></span> Confirmer</button>
+          <a href="pagepanier.html?page=3" class="btn btn-danger col-sx-12 col-sm-6"><span class="fa fa-pencil"></span> <span>Modifier</span></a>
         </div>
       </main>
       <footer></footer>
