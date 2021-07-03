@@ -30,35 +30,45 @@
 
       <!-- Corps -->
       <main class="container pt-2">
-        
         <div class="remerciement">
           <h1 class="text-align-center">RECAPITULATIF DE VOTRE COMMANDE</h1>
           <p id="salutation" class="text-align-left"></p>
-          <P class="text-align-left">Nous vous remercions de nous avoir fait confiance.</P>
-          <P class="text-align-left">Veuillez trouver le résumé de votre commande</P>
+          <P class="text-align-left">Nous vous remercions de nous avoir fait confiance. Votre commande est bien enregistrée.</P>
           <P class="text-align-left pb-2" id="email-message"> </P>
-        </div>
-        <!--Affichage des produits -->
-       
+        </div>       
         <section class="p-3" >
           <P class="text-align-left pb-2 " id="reference-commande"> </P>
+          <P class="text-align-left pb-2 " id="nbreDeProduit">  </P>
+          <P class="text-align-left pb-2 " > Vendu par Orinoco </P>
           <hr>
         </section>
-       
-         
-        <div class="w-100 text-center p-2 prix" id="prix-total"></div>
-        <h2>VOS INFORMATIONS PERSONNELLES</h2>
-        <div class="infos" id="infos-client">
-            
-        </div>
-        
-        <div class="boutons row text-center">
-          <button class="btn btn-success col-sx-12 col-sm-6" id="btnConfirmerCommande"><span class="fa fa-check-circle"></span> Confirmer</button>
-          <a href="pagepanier.html?page=3" class="btn btn-danger col-sx-12 col-sm-6"><span class="fa fa-pencil"></span> <span>Modifier</span></a>
-        </div>
+        <section>
+          <h2 class="bg-secondary text-white p-2">Récapitulatif de votre paiement</h2>
+          <div class="w-100 text-align-left p-2" >
+            <div class="row">
+              <P class="col-9 pb-2 text-secondary">Total produits </P>
+              <P class="col-3 pb-2 text-secondary text-align-right" id="prix-total"> </P>
+            </div>
+            <div class="row">
+              <P class="col-9 pb-2 text-secondary"> Frais de livraison </P>
+              <P class="col-3 pb-2 text-secondary text-align-right"> 0,00 € </P>
+            </div>
+            <div class="row">
+              <P class="col-9 pb-2 text-secondary"> Frais de traitement </P>
+              <P class="col-3 pb-2 text-secondary text-align-right"> 0,00 € </P>
+            </div>
+            <div class="row">
+              <P class="col-9 pb-2 text-secondary"> Remise / Carte Cadeau </P>
+              <P class="col-3 pb-2 text-secondary text-align-right"> 0,00 € </P>
+            </div>
+            <div class="row">
+              <P class="col-9 pb-2 text-dark font-weight-bold">Total TTC</P>
+              <P class="col-3 pb-2 text-dark font-weight-bold text-align-right" id="prix-total-TTC"></P>
+            </div>
+          </div>
+        </section>
       </main>
       <footer></footer>
       <script type="text/javascript" src="script.js" async></script> 
-      
     </body>
 </html>

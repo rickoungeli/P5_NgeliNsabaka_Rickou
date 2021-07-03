@@ -92,14 +92,15 @@ if (page=='3'){
 if (page==4){
     produits = JSON.parse(localStorage.getItem('panier'))
     infosClient = JSON.parse(localStorage.getItem('infosClient'))
-    console.log(infosClient)
-    //nbrePanier = localStorage.getItem('nbrePanier')
-    let client
+    prixTotal = JSON.parse(localStorage.getItem('prixTotal'))
     let reference = Math.floor(Math.random() * 586324729)
     document.querySelector('#salutation').innerHTML = `Bonjour <span class='font-weight-bold text-danger text-uppercase' > ${infosClient.name}</span>`
-    document.querySelector('#email-message').innerHTML = `Un email vous a été envoyé à <span class='text-primary' > ${infosClient.email}</span>`
-    document.querySelector('#reference-commande').innerHTML = `Référence de votre commande : <span class='text-primary' > ${reference}</span>`
-    
+    document.querySelector('#email-message').innerHTML = `Un email de confirmation vous a été envoyé à <span class='text-dark' > ${infosClient.email}</span>`
+    document.querySelector('#reference-commande').innerHTML = `Référence de votre commande : <span class='text-danger font-weight-bold' > ${reference}</span>`
+    document.querySelector('#prix-total').innerHTML = `${prixTotal},00€`
+    document.querySelector('#prix-total-TTC').innerHTML = `${prixTotal},00€`
+    localStorage.clear()
+    document.querySelector(".nombre-panier").innerHTML = 0
 }
 
 
@@ -353,57 +354,7 @@ function commander() {
         window.location = 'synthesecommande.html?page=4'
     }
 }
-/*
-//Fonction pour afficher la synthèse commande
-function afficherSyntheseCommande() {
-    produits = JSON.parse(localStorage.getItem('panier'))
-    //let prixTotalPanier = localStorage.getItem('prixTotal')
-    //console.log(prixTotalPanier)
-    for (i = 0; i < produits.length; i++) {
-        let prix = (produits[i].price * produits[i].quantite) / 100
-        prixTotal+=prix
-        let card = document.createElement("div")
-        card.setAttribute('class', 'card1 col-sx-12 col-sm-6 d-flex p-2')
-        conteneur.appendChild(card)
-        card.innerHTML = `
-        
-            <div class='photo-mini'>
-                <img src=${produits[i].imageUrl}>
-            </div>
-            <div class='decry'>
-                <p class='nom'>Nom : ${produits[i].name}</p>
-                <p id="quantite">Quantité : ${produits[i].quantite}</p>
-                <p id="prix">Prix : ${separerLesMilliers(prix)} €</p>
-            </div>
-        
-        `
 
-    }
-    afficherPrixTotal()
-    
-    btnConfirmerCommande.addEventListener('click',()=>{
-        localStorage.clear()
-        window.location='pagepanier.html?page=3'
-    })
-}
-
-//Fonction pour afficher les informations du client
-function afficherInfosClient() {
-    infosClient = JSON.parse(localStorage.getItem('infosClient'))
-    let card = document.createElement("div")
-    card.setAttribute("class","card1 p-2")
-    card.innerHTML = `
-        <div class='descry'>
-            <p class=''>Préom : ${infosClient.firstname}</p>
-            <p class=''>Nom : ${infosClient.name}</p>
-            <p id="prix-total">Email : ${infosClient.email}</p>
-            <p id="quantite">Adresse : ${infosClient.adress}</p>
-            <p id="prix-total">Ville : ${infosClient.city}</p>
-        </div>
-    `
-    document.querySelector('#infos-client').appendChild(card)
-}
-*/
 //Fonction pour séparer les milliers dans le champs prix
 function separerLesMilliers(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')
@@ -426,6 +377,7 @@ function AfficherNombreProduits() {
  function afficherPrixTotal() {
     let divPrixTotal = document.querySelector('#prix-total')
     divPrixTotal.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
+    localStorage.setItem('prixTotal', prixTotal)
 }
 
 //Les fonctions pour la validation du formulaire client
