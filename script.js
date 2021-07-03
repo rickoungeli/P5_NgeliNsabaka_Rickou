@@ -8,6 +8,7 @@ let nbrePanier = 0
 let prixTotal = 0
 let produits = []
 let produit = {}
+let infosClient = {}
 
 //Pour toutes les pages
 AfficherNombreProduits()
@@ -61,9 +62,9 @@ if (page==2){
     id = (document.location.search).substring(11,39)
     fetch (`http://localhost:5500/api/teddies/${id}`) 
     .then (response => response.json()
-    .then(teddy => {
-        afficheTeddy(teddy)
-        ajoutPanier(teddy)  
+    .then(prod => {
+        afficheProduit(prod)
+        ajoutPanier(prod)  
     }))
     .catch(error => alert ("Erreur : " + error)) 
     
@@ -84,33 +85,41 @@ if (page=='3'){
                 <h2 class='text-center w-100'>VOTRE PANIER EST VIDE</h2>
             `
     }
-    commander()
+    const btnValider = document.querySelector('#btn-commander')
+    btnValider.addEventListener('click', commander)
 }
 
 if (page==4){
-    afficherSyntheseCommande()
-    afficherInfosClient()
+    produits = JSON.parse(localStorage.getItem('panier'))
+    infosClient = JSON.parse(localStorage.getItem('infosClient'))
+    console.log(infosClient)
+    //nbrePanier = localStorage.getItem('nbrePanier')
+    let client
+    let reference = Math.floor(Math.random() * 586324729)
+    document.querySelector('#salutation').innerHTML = `Bonjour <span class='font-weight-bold text-danger text-uppercase' > ${infosClient.name}</span>`
+    document.querySelector('#email-message').innerHTML = `Un email vous a été envoyé à <span class='text-primary' > ${infosClient.email}</span>`
+    document.querySelector('#reference-commande').innerHTML = `Référence de votre commande : <span class='text-primary' > ${reference}</span>`
+    
 }
 
 
 //--------------------------------LES FONCTIONS -------------------------------------//
 
 //Fonction pour afficher la fiche d'un produit depuis la liste des produits (page 1)
-function afficheTeddy(teddy) {
-    const couleurs = teddy.colors
-    console.log (couleurs)
+function afficheProduit(prod) {
+    const couleurs = prod.colors
     conteneur.innerHTML =
     `
         <div class='card p-2'>
             
             <div class='descry'>
                 <div class='photo'>
-                    <img src=${teddy.imageUrl}>
+                    <img src=${prod.imageUrl}>
                 </div>
-                <p class='nom'>${teddy.name}</p>
-                <p class='description'>${teddy.description}</p>
+                <p class='nom'>${prod.name}</p>
+                <p class='description'>${prod.description}</p>
                 <div class='groupe-prix-qte'>
-                    <p class='prix'>${separerLesMilliers(teddy.price/100)} €</p>
+                    <p class='prix'>${separerLesMilliers(prod.price/100)} €</p>
                     <form>
                         <p>Couleur : </p>
                         <select name="color" id="color">
@@ -131,8 +140,8 @@ function afficheTeddy(teddy) {
 }
 
 //Fonction pour ajouter des produits au panier depuis la fiche produit (page 2)
-function ajoutPanier(teddy) {
-    const btnAjoutPanier = document.querySelector('#btnAjoutPanier')
+function ajoutPanier(prod) {
+    //const btnAjoutPanier = document.querySelector('#btnAjoutPanier')
     btnAjoutPanier.addEventListener('click', (e) => {
         btnAjoutPanier.classList.add('hidden')
         if (localStorage.getItem('panier')) {
@@ -140,21 +149,21 @@ function ajoutPanier(teddy) {
             nbrePanier = localStorage.getItem('nbrePanier')
             let isFound = false
             for (i=0; i<produits.length; i++) {
-                if (produits[i]._id === teddy._id) {
+                if (produits[i]._id === prod._id) {
                     produits[i].quantite += 1
                     isFound = true
                     break
                 }
             } 
             if (!isFound){
-                teddy.quantite=1
-                produits.push(teddy)
+                prod.quantite=1
+                produits.push(prod)
             }
             
         }
         else {
-            teddy.quantite=1
-            produits.push(teddy)
+            prod.quantite=1
+            produits.push(prod)
         }
         nbrePanier++
         localStorage.setItem('nbrePanier', nbrePanier)
@@ -217,7 +226,6 @@ function affichePanier() {
                     prixTotal -= (produits[i].price/100)     
                     localStorage.setItem('nbrePanier', nbrePanier)
                     localStorage.setItem('panier', JSON.stringify(produits))
-                    
                     AfficherNombreProduits()
                     prix = card.querySelector("#prix").innerHTML
                     divprix.innerHTML = (produits[i].price * produits[i].quantite)/100
@@ -226,7 +234,7 @@ function affichePanier() {
                     break
                 }
             } 
-        }) 
+        })
         //pour augmenter la quantité d'un produit
         const increment = card.querySelector('#increment')
         increment.addEventListener('click', (e) => {
@@ -255,7 +263,7 @@ function affichePanier() {
 
 }
 
-//Fonction pour afficher le formulaire client (page panier)s
+//Fonction pour afficher et remplir le formulaire client (page panier)s
 function afficheFormulaireClient() {    
     const infosClient = document.querySelector('#infos-client')
     infosClient.removeAttribute('class')
@@ -272,75 +280,80 @@ function afficheFormulaireClient() {
 
 //Fonction pour enregistrer la commande  et afficher la page résumé
 function commander() {
-    const btnValider = document.querySelector('#btn-commander')
-    btnValider.addEventListener('click', (e) => {
-        //On vérifie si le formulaire client est bien renseigné
-        let hasError = false
-        const prenom = document.querySelector('#prenom')
-        const nom = document.querySelector('#nom')
-        const adresse = document.querySelector('#adresse')
-        const ville = document.querySelector('#ville')
-        const email = document.querySelector('#email')
+    //On vérifie si le formulaire client est bien renseigné
+    let hasError = false
+    const prenom = document.querySelector('#prenom')
+    const nom = document.querySelector('#nom')
+    const adresse = document.querySelector('#adresse')
+    const ville = document.querySelector('#ville')
+    const email = document.querySelector('#email')
 
-        const prenomValue = prenom.value.trim()
-        const nomValue = nom.value.trim()
-        const adresseValue = adresse.value.trim()
-        const villeValue = ville.value.trim()
-        const emailValue = email.value.trim()
+    const prenomValue = prenom.value.trim()
+    const nomValue = nom.value.trim()
+    const adresseValue = adresse.value.trim()
+    const villeValue = ville.value.trim()
+    const emailValue = email.value.trim()
 
-        if (prenomValue === '') {
-            setErrorFor(prenom, 'Veuillez taper votre prénom')
-            hasError = true
-        } else if (prenomValue.length < 2 || prenomValue.length > 30) {
-            setErrorFor(prenom, 'Le prénom doit comprendre entre 2 et 30 caractères')
-            hasError = true
-        } else {
-            setSuccessFor(prenom)
+    if (prenomValue === '') {
+        setErrorFor(prenom, 'Veuillez taper votre prénom')
+        hasError = true
+    } else if (prenomValue.length < 2) {
+        setErrorFor(prenom, 'Le prénom doit avoir au moins 2 caractères')
+        hasError = true
+    } else if (!isValidFirstName(prenomValue)) {
+        setErrorFor(prenom, 'Le prénom ne doit comprendre que des lettres')
+        hasError = true
+    } else {
+        setSuccessFor(prenom)
+    }
+    if (nomValue === '') {
+        setErrorFor(nom, 'Veuillez taper votre nom')
+        hasError = true
+    } else if (nomValue.length < 2) {
+        setErrorFor(nom, 'Le nom doit avoir au moins 2 caractères')
+        hasError = true
+    } else if (!isValidName(nomValue)) {
+        setErrorFor(nom, 'Le nom doit commencer par une lettre')
+        hasError = true
+    } else {
+        setSuccessFor(nom)
+    }
+    if (adresseValue === '') {
+        setErrorFor(adresse, 'Veuillez taper votre adresse')
+        hasError = true
+    } else {
+        setSuccessFor(adresse)
+    }
+    if (villeValue === '') {
+        setErrorFor(ville, 'Veuillez taper la ville')
+        hasError = true
+    } else {
+        setSuccessFor(ville)
+    }
+    if (emailValue === '') {
+        setErrorFor(email, 'Veuillez taper votre e-mail')
+        hasError = true
+    } else if (!isEmail(emailValue)) {
+        setErrorFor(email, 'Veuillez taper un e-mail valide')
+        hasError = true
+    } else {
+        setSuccessFor(email)
+    }
+    //on enregistre le formulaire client dans localstorage et on affiche la page synthèse
+    if (!hasError) {
+        let formulaireClient = {}
+        formulaireClient = {
+            firstname: prenomValue,
+            name: nomValue,
+            adress: adresseValue,
+            city: villeValue,
+            email: emailValue
         }
-        if (nomValue === '') {
-            setErrorFor(nom, 'Veuillez taper votre nom')
-            hasError = true
-        } else {
-            setSuccessFor(nom)
-        }
-        if (adresseValue === '') {
-            setErrorFor(adresse, 'Veuillez taper votre adresse')
-            hasError = true
-        } else {
-            setSuccessFor(adresse)
-        }
-        if (villeValue === '') {
-            setErrorFor(ville, 'Veuillez taper la ville')
-            hasError = true
-        } else {
-            setSuccessFor(ville)
-        }
-        if (emailValue === '') {
-            setErrorFor(email, 'Veuillez taper votre e-mail')
-            hasError = true
-        } else if (!isEmail(emailValue)) {
-            setErrorFor(email, 'Veuillez taper un e-mail valide')
-            hasError = true
-        } else {
-            setSuccessFor(email)
-        }
-        //on enregistre le formulaire client dans localstorage et on affiche la page synthèse
-        if (!hasError) {
-            let formulaireClient = {}
-            formulaireClient = {
-                firstname: prenomValue,
-                name: nomValue,
-                adress: adresseValue,
-                city: villeValue,
-                email: emailValue
-            }
-            localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
-            window.location = 'synthesecommande.html?page=4'
-        }
-    })
-
+        localStorage.setItem('infosClient', JSON.stringify(formulaireClient))
+        window.location = 'synthesecommande.html?page=4'
+    }
 }
-
+/*
 //Fonction pour afficher la synthèse commande
 function afficherSyntheseCommande() {
     produits = JSON.parse(localStorage.getItem('panier'))
@@ -376,7 +389,7 @@ function afficherSyntheseCommande() {
 
 //Fonction pour afficher les informations du client
 function afficherInfosClient() {
-    let infosClient = JSON.parse(localStorage.getItem('infosClient'))
+    infosClient = JSON.parse(localStorage.getItem('infosClient'))
     let card = document.createElement("div")
     card.setAttribute("class","card1 p-2")
     card.innerHTML = `
@@ -390,7 +403,7 @@ function afficherInfosClient() {
     `
     document.querySelector('#infos-client').appendChild(card)
 }
-
+*/
 //Fonction pour séparer les milliers dans le champs prix
 function separerLesMilliers(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')
@@ -414,7 +427,8 @@ function AfficherNombreProduits() {
     let divPrixTotal = document.querySelector('#prix-total')
     divPrixTotal.innerHTML = "Total : " + separerLesMilliers(prixTotal) + " €"
 }
- 
+
+//Les fonctions pour la validation du formulaire client
 function setErrorFor(input, message) {
     const formGroup = input.parentElement
     const small = formGroup.querySelector('small')
@@ -429,7 +443,12 @@ function setSuccessFor(input) {
 }
 function isEmail(email) {
     return /\S+@\S+\.\S+/.test(email)
-
+}
+function isValidFirstName(prenom) {
+    return /^[a-zA-Z]+[a-zA-Z]/.test(prenom)
+}
+function isValidName(nom) {
+    return /^[a-zA-Z]/.test(nom)
 }
 
 

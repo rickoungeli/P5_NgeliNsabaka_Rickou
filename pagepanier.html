@@ -30,13 +30,13 @@
       <!-- Corps -->
       <main class="container pt-2">
         <!--Affichage des produits -->
-        <div id="conteneur">
+        <section id="conteneur">
           <h1>Votre panier :</h1>
-        </div>
-        <div class="w-100 text-center p-2 prix" id="prix-total">
+        </section>
+        <aside class="w-100 text-center p-2 prix" id="prix-total">
 
-        </div>
-        <div class="d-none" id="infos-client">
+        </aside>
+        <section class="d-none" id="infos-client">
           <form id="form-client" class="form">
             <h2 class="text-center">Informations sur le client</h2>
             <div class="form-group ">
@@ -74,13 +74,12 @@
               <i class="fas fa-exclamation-circle"></i>
               <small>Message</small>
             </div>
-        </form>
-         
-        </div>
-        <div class="groupe-prix-qte">
+          </form>
+        </section>
+        <aside class="groupe-prix-qte">
           <button class="btn btn-success w-100" id="btn-commander">COMMANDER</button>
           <div id="prix-total"></div>
-        </div>
+        </aside>
       </main>
       <footer></footer>
       <script type="text/javascript" src="script.js" async></script> 

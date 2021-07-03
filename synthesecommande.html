@@ -32,16 +32,18 @@
       <main class="container pt-2">
         
         <div class="remerciement">
-          <h1>RESUME DE VOTRE COMMANDE</h1>
-          <P>Nous vous remercions de nous avoir fait confiance.</P>
-          <P>Veuillez confirmer votre commande</P>
+          <h1 class="text-align-center">RECAPITULATIF DE VOTRE COMMANDE</h1>
+          <p id="salutation" class="text-align-left"></p>
+          <P class="text-align-left">Nous vous remercions de nous avoir fait confiance.</P>
+          <P class="text-align-left">Veuillez trouver le résumé de votre commande</P>
+          <P class="text-align-left pb-2" id="email-message"> </P>
         </div>
         <!--Affichage des produits -->
        
-        <h2>VOTRE COMMANDE CONTIENT</h2>
-          <div class="row" id="conteneur">
-            
-          </div>
+        <section class="p-3" >
+          <P class="text-align-left pb-2 " id="reference-commande"> </P>
+          <hr>
+        </section>
        
          
         <div class="w-100 text-center p-2 prix" id="prix-total"></div>
