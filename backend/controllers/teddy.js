@@ -47,6 +47,7 @@ exports.getOneTeddy = (req, res, next) => {
  *
  */
 exports.orderTeddies = (req, res, next) => {
+  
   if (!req.body.contact ||
     !req.body.contact.firstName ||
     !req.body.contact.lastName ||
@@ -77,13 +78,16 @@ exports.orderTeddies = (req, res, next) => {
   }
   Promise.all(queries).then(
     (teddies) => {
+      
       const orderId = uuid();
       return res.status(201).json({
         contact: req.body.contact,
         products: teddies,
         orderId: orderId
       })
+      
     }
+    
   ).catch(
     (error) => {
       return res.status(500).json(new Error(error));
